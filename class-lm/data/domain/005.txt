@@ -1,0 +1,21 @@
+Given an array representing a list of integers, write the code to convert it into the equivalent linked list (using only nodes, not a linked list class). Make sure to define your node class. 
+
+class Node {
+	int data;
+	Node next;
+	public Node(int data) {this.data=data;}
+}
+
+Node convert(int[] in) { //gives back head of LL
+	if(in == null || in.length == 0) return null;
+
+	Node head = new Node(in[0]);
+	Node current = head;
+
+	for(int i = 1; i < in.length; i++) {
+		current.next = new Node(in[i]);
+		current = current.next;
+	}
+
+	return head;
+}

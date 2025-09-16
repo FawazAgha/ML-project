@@ -1,0 +1,70 @@
+/**
+Example to show how to comment a class.
+This is just an example, I am sure you can come up with better and meaningful comments.
+@author Archange Destine
+@param <E> Element that represent the type of variable temp.
+*/
+public class Program4<E> {
+
+	
+	/**
+	 *  A temporary variable of type E.
+	 */
+	E temp;
+	
+	/**
+    The method for the counting logic.
+    @param arr array containing a list of int.
+	@return Returns the occurrence of even numbers.
+    */
+	public static int countEven(int[] arr) {
+		int count = 0;
+		//comment to explain this step in the code...
+		for(int i=0; i<arr.length; i++)
+			if(arr[i]%2==0) {
+				count++;
+			}
+		return count;
+	}
+	
+	/**
+    The method using recursion for the counting logic.
+    @param arr array containing a list of int.
+	@return Returns the occurrence of even numbers.
+    */
+	public static int countEven2(int[] arr) {
+		
+		if(arr.length==0)
+			return 0;
+		
+		int[] arr2 = new int[arr.length-1];
+		System.arraycopy(arr, 1, arr2, 0, arr.length-1);
+		if(arr[0] % 2==0)
+			return 1+countEven2(arr2);
+		else
+			return 0+countEven2(arr2);
+	}
+
+	
+	/**
+	 *  This is a main method with demo code.
+	 *  @param args command line args (not used).
+	 */
+	public static void main(String[] args) {
+		
+		int[] arr = {1,3,2,4,1,2};
+		System.out.println(countEven(arr));
+		System.out.println(countEven2(arr));
+		
+		arr = new int[]{8,3,2,4,1,2};
+		System.out.println(countEven(arr));
+		System.out.println(countEven2(arr));
+
+		
+
+		String ab = null;
+		ab.length();
+
+		
+	}
+}

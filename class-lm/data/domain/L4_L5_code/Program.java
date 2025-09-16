@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
+public class Program {
+
+    public static void main(String[] agrs) {
+        MyDS<Integer> collection = new MyDS<>(3);
+        collection.append(4);
+        collection.append(1);
+        collection.append(5);
+        collection.printElements();
+
+        //Lets try to iterate over an array
+        String[] arr = {"QW","ER","TY","UI"};
+        for(int i=0; i<arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+
+        System.out.println("... using Foreach...");
+
+        for(String str: arr) {
+            System.out.println(str);
+        }
+
+        ArrayList<String> arrList = new ArrayList<>(Arrays.asList(arr));
+        /* 
+        for(String str: arr) {
+            System.out.println(str);
+        }
+        */
+
+        System.out.println("... using Iterator...");
+
+        for(Iterator<String> itr = arrList.iterator(); itr.hasNext();) {
+            String elt = itr.next();
+            System.out.println(elt);
+        }
+
+        System.out.println("... using Iterator on MyDS");
+
+        for(Iterator<Integer> itr = collection.iterator(); itr.hasNext();) {
+            int elt = itr.next();
+            System.out.println(elt);
+        }
+
+        System.out.println("... using forEach on MyDS");
+
+        for(Integer elt: collection) {
+            System.out.println(elt);
+        }
+    }
+
+    public static void justAFunction() throws Exception {
+        int a = 0;
+        if(a < 0) {
+            throw new Exception("Test");
+        }
+    }
+}

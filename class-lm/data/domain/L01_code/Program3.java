@@ -1,0 +1,46 @@
+//Example of functions that can return how many even numbers we have in an arraycopy
+//countEven use an iterative approach
+//countEven2 use a recursive approach
+//N.B. Program4.java is the same, but illustrate good style and comments (as required for all projects)
+
+public class Program3 {
+	
+	public static int countEven(int[] arr) {
+		int count = 0;
+		for(int i=0; i<arr.length; i++)
+			if(arr[i]%2==0) {
+				count++;
+			}
+		return count;
+	}
+	
+	public static int countEven2(int[] arr) {
+		
+		if(arr.length==0)
+			return 0;
+		
+		int[] smallerArr = new int[arr.length-1];
+		//Copy the content everything from the 2nd item to the new list (you can use a for loop to copy the items also)
+		System.arraycopy(arr, 1, smallerArr, 0, arr.length-1);
+		
+		//This call will just check the first item (arr[0]) and ask another call to hander the rest... the other call will have same behavior, and so on.
+		if(arr[0] % 2==0)
+			return 1+countEven2(smallerArr);
+		else
+			return 0+countEven2(smallerArr);
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		int[] arr = {1,3,2,4,1,2};
+		System.out.println(countEven(arr));
+		System.out.println(countEven2(arr));
+		
+		arr = new int[]{8,3,2,4,1,2};
+		System.out.println(countEven(arr));
+		System.out.println(countEven2(arr));
+		
+	}
+}
