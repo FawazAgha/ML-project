@@ -1,0 +1,300 @@
+CS310 Data Structures
+
+Analysis of Algorithms
+Algorithm Analysis
+
+– Algorithm
+
+= how you do things – Algorithm Analysis
+= analyze how well you do things
+
+– Data structures need algorithms to: – insert data
+– delete data
+
+– search data that (may) already exist – What defines well?
+Two+ Complexities
+
+– Time-complexity
+
+– How much time given a lot of data?
+
+– Bad: if I need to sort 10 items it's fast, but if I need to sort 1000 and takes 3 hours
+
+– Space-complexity
+
+– How much memory given a lot of data?
+
+– Bad: if I need to sort 10 items it takes 10B but if need to sort 1000 it takes 10GB
+
+– Implementation-complexity
+
+– How easy is it to implement (hardware/software)? – Generally, simpler algorithms are preferred.
+– Other complexities
+
+– Communication complexity – Arithmetic complexity
+Time Complexity
+
+(w/ Real Life Examples!)
+
+– Time to read n pages from a book – Time to cook dinner for n people – Time to arrange n cats in a line
+
+– Can we use empirical analysis?
+
+– Sample time for different inputs and infer – Can math be used to model complexity?
+– If so, can we use typical functions of n?
+Analysis Approaches: Empirical
+
+– Run the program with different n
+
+– Determine time for n1 and time for n2 where n2 > n1 – Compare ratio, by definition, rate of growth
+
+– Good:
+
+– Reasonable approach if no access to the algorithm – Can be used to predict performance
+– Bad:
+
+– Machine specific and lacks understanding
+
+– What happens when your antivirus software starts up?
+Analysis Approaches: Empirical
+
+class benchmark
+{
+    public static void main(String[] args) {
+        long start = 0;
+        int runs = 100000000; // enough to run for 2-10 seconds
+        start = System.nanoTime();
+
+        for(int i=0;i<runs;i++) {
+            // insert some operation here
+
+        long duration = System.nanoTime() - start;
+        System.out.printf("Each op took an average of %,d ns%n", duration/runs);
+Analysis Approaches: Mathematical
+
+– Decompose program into individual operations
+
+– Each operation takes some constant amount of time and is executed with some frequency.
+
+– Time depends on the machine/compiler.
+
+– The frequency depends on the algorithm/input.
+
+– Good:
+
+– Can be used to predict performance
+
+– Machine independent (instructions->cycles->time) – Bad:
+– Very difficult to perform
+Analysis Approaches: Approximation
+
+– Represent complexity as a function of the input – f(n) where n is some input.
+– Example: for a sort, f(n) = n2
+
+– where n is the number of items to sort – So... if you need to sort n = 5 things,
+– it will take n2 = 52 = 25 units (of time/space)
+
+– Compare to n=100 things, and it will take – n2 = 1002 = 10,000 units (of time/space)
+– Terminology
+
+– When referring to time complexity, we will use T(n) instead of f(n)
+
+– Let's look at a simple program and compute T(n)
+
+void method1(int n, int m) { int sum = n + m;
+int diff = n - m;
+
+– What's T(n) for a single loop?
+
+void method2(int n, int m) { int total = 0;
+for(int i = 0; i < n; i++) { total += m;
+
+– What if you do more things in the loop?
+
+void method3(int n, int m) { int total = 0;
+for(int i = 0; i < n; i++) { System.out.println(i); total += m;
+
+– T(n) for sequential loops?
+
+void method4(int n, int m) { for(int i = 0; i < n; i++) {
+System.out.println(i);
+for(int i = 0; i < n; i++) { System.out.println(i);
+
+– What if there's more than one factor?
+
+void method5(int n, int m) { for(int i = 0; i < n; i++) {
+System.out.println(i);
+for(int i = 0; i < m; i++) { System.out.println(i);
+
+– T(n) for a one-factor nested loop?
+
+void method6(int n, int m) { System.out.println(n+"x"+n); for(int i = 0; i < n; i++) {
+for(int j = 0; j < n; j++) { System.out.println("banana");
+
+– Multi-factor nested loops?
+
+void method7(int n, int m) { System.out.println(n+"x"+m); for(int i = 0; i < n; i++) {
+for(int j = 0; j < m; j++) { System.out.println("banana");
+
+– Varying-size nested loops?
+
+void method7(int n, int m) { System.out.println(n+"x"+m); for(int i = 0; i < n; i++) {
+for(int j = 0; j <= i; j++) { System.out.println("banana");
+Approximation Analysis: 4 steps
+
+1.Define a function to describe your algorithm 2n2 + 27
+2.Drop the low order terms 2n2
+3.Drop the leading constants n2
+4.Put an O next to it O(n2)
+Approximation Analysis
+
+– For non-trivial algorithms, exact mathematical model requires experienced mathematicians
+
+– conditional branching? need probability distributions for input data
+
+– Observation: For large n, the lower order terms of T(n) are insignificant and can be discarded
+
+– idea is from calculus, as x tends to infinity
+
+– Throw out low order terms and approximate the time complexity by considering upper/lower bounds.
+
+– greatly simplify analysis
+Big Omicron (O) notation
+
+If f(n) describes the running time of an algorithm then we say that this algorithm has a time complexity of O(g(n)) when:
+
+f(n) <= C·g(n) for all n >= n0    (the focus is on large inputs)
+
+where C and n0 are positive constants
+
+Think of the O notation as the worst-case-scenario complexity, which is formally called the upper bound
+
+Image source: https://www.geeksforgeeks.org
+Example Functions
+Approximation Analysis Examples
+
+– The Practical Practice
+
+– Drop the low order terms – Drop the leading constants – Put an O next to it
+
+– 2.5
+
+– 2 + 5 lg n – 10n + log n – lg(n2)
+– 7n + 0.5n2 + 4
+
+– 0.1n3 + 8n1.5 + log n
+
+O(1) O(lg n) O(n)
+O(lg n)      Note: lg(n2) = 2 * lg(n) O(n2)
+O(n3)
+Example Functions
+Running Time Examples
+
+Image Source: Mark Allen Weiss textbook
+Quick Rules of Thumb
+
+– O(1) - usually doing something that takes a fixed amount of time, no matter how long that time is
+
+– O(lg n) - dividing a problem in half repeatedly and working on only one half each time
+
+– O(n) - doing something with each item of data (or a faction of the data, like n/2)
+
+– O(n lg n) - dividing a problem in half repeatedly and working on both halves each time
+
+– O(n2) - nested loops that both go through all data
+
+– O(n3) - three nested loops that each go through all data
+
+– O(anything more than n4) - you're probably doing it wrong
+Big Omega (Ω) notation
+
+If f(n) describes the running time of an algorithm then we say that this algorithm has a time complexity of Ω(g(n)) when:
+
+        f(n) >= C·g(n)	for all n >= n0
+
+where C and n0 are positive constants
+
+Think of the Ω notation as the best-case-scenario complexity, which is formally called the lower bound
+
+Image source: https://www.geeksforgeeks.org
+Big Theta (Θ) notation
+
+If f(n) describes the running time of an algorithm then we say that this algorithm has a time complexity of Θ(g(n)) when:
+
+        C2·g(n) <= f(n) <= C1·g(n) 	for all n >= n0
+
+where C1, C2 and n0 are positive constants
+
+Think of the Θ notation as the average-case-scenario complexity, which is bounded on both ends
+
+Image source: https://www.geeksforgeeks.org
+Worst, Average, or Best Case?
+
+Plan for the worst, hope for the best
+
+– Best case isn't usually helpful; usually between O(1) and O(n)
+
+– Average case can be helpful; typically requires probabilistic analysis to “prove” it
+
+– Worst case usually is the most important
+
+Approximation Algorithm Gotchas
+It's not just what you do...
+
+– It's everything the computer does
+
+void method8(String[] arr) { String result = "["; for(String s : arr) {
+result += s + " ";
+result += "]"; System.out.println(result);
+And sometimes it’s sneaky...
+
+– It's everything the computer does
+
+void method9(int n, int m) { for(int i = 0; i < 10; i++) {
+for(int j = 0; j < n; j++) { System.out.println("banana");
+
+Not all code is born equal though…
+Memory Access
+
+– Algorithmic analysis assumes uniform memory access speeds – random access memory
+– instructions executed one after the other – no concurrent operations
+– Real life doesn't work that way
+
+– Some memory locations are “farther” away – This has a practical effect on performance
+Memory Access Hierarchy
+
+Image Source: http://www.bit-tech.net/hardware/memory/2007/11/15/ the_secrets_of_pc_memory_part_1/3
+Memory Access... intuitively
+
+Edited Excerpt From: http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/people/jeff/stanford-295-talk.pdf
+Summary of Analysis Approaches
+
+– Empirical Analysis
+
+– Run the program with different n
+
+– Reasonable approach if no access to the code
+
+– Can be used to predict performance
+
+– Approximation Analysis
+
+– Eliminates details to simplify model
+
+– e.g. Tilde (~), Big-Oh, Theta, Omega, etc.
+
+– Machine specific and lacks understanding
+
+– Mathematical Analysis
+
+– Independent of machine
+
+– Can make statements concerning bounds
+
+– Can be used to predict performance
+
+– Independent of machine (instructions->cycles->time)
+
+– Very difficult to perform
+
+– Typically cannot make predictions

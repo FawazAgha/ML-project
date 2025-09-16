@@ -1,0 +1,22 @@
+{
+  "lowercase": true,
+  "input_dir": "class-lm/data/domain/text",
+  "repeat_input": 20,
+  "extra_dirs": [
+    "class-lm/data/generic"
+  ],
+  "vocab_size": 16000,
+  "min_frequency": 2,
+  "limit_alphabet": 1000,
+  "special_tokens": [
+    "[PAD]",
+    "[UNK]",
+    "[CLS]",
+    "[SEP]",
+    "[MASK]"
+  ],
+  "tokenizer_json": "class-lm/tokenizer/wordpiece/tokenizer.json",
+  "vocab_files": [
+    "class-lm/tokenizer/wordpiece/vocab.txt"
+  ]
+}

@@ -1,0 +1,128 @@
+	Doubly Linked List
+
+head	tail
+
+ Doubly linked list allows to traverse backward as well as forward through the list.
+-Each node has two references to other nodes instead of one
+> next: points to the next node in the list
+> prev: points to the previous node in the list
+-Each list uses two references to access its nodes
+> head : refers to the first node
+> tail : refers to the last node
+
+	Doubly Linked List-Traversal
+ Forward Traversal
+Node node = head;
+while (node != null) { System.out.print(node.value + " "); node = node.next;
+
+ Backward Traversal
+Node node = tail; while (node != null) {
+System.out.print(node.value + " "); node = node.prev;
+
+if (head == null)	//check if it is an empty list
+tail = newNode;
+head.prev = newNode;
+
+newNode.next = head; head = newNode;
+
+null null
+
+if (head == null)	//check if it is an empty list tail = newNode;
+head.prev = newNode;
+
+newNode.next = head;
+head = newNode;
+
+if (head == null)	//check if it is an empty list tail = newNode;
+head.prev = newNode;
+
+newNode.next = head;
+head = newNode;
+null null
+
+if (head == null)	//check if it is an empty list tail = newNode;
+head.prev = newNode;
+
+newNode.next = head;
+head = newNode;
+
+public void insertLast(T value) {
+Node newNode = new Node(value);
+
+if (tail == null)	//check if the list is empty head = newNode;
+tail.next = newNode;
+
+newNode.prev = tail;
+tail = newNode;
+
+public void insertLast(T value) {
+Node newNode = new Node(value);
+
+if (tail == null)	//check if the list is empty head = newNode;
+tail.next = newNode;
+
+newNode.prev = tail;
+tail = newNode;
+
+null null
+
+ insertLast() : inserts a node at the end of the (possibly empty) list.
+public void insertLast(T value) {
+Node newNode = new Node(value);
+
+if (tail == null)	//check if the list is empty head = newNode;
+tail.next = newNode;
+
+newNode.prev = tail; tail = newNode;
+
+insert(): insert a node at a specific insertion point in the list.
+
+Find the insertion point first...
+
+public Node findNode(T value) {
+Node node = head; while (node != null) {
+if (node.value.equals(value)) {
+return node;
+node = node.next;
+return null;
+
+insert(): insert a node at a specific insertion point in the list
+
+public void insertAfter(Node prevNode, T newData) { Node newNode = new Node(newData); newNode.next = prevNode.next; prevNode.next = newNode; newNode.prev = prevNode;
+
+head
+
+if (newNode.next != null)
+newNode.next.prev = newNode;
+
+current
+
+Data=10 next
+prev
+
+Data=20 next
+prev
+
+Data=30 next
+prev
+
+Data=40 next
+prev
+
+insert(): insert a node at a specific insertion point in the list
+
+public void insertAfter(Node prevNode, T newData) { Node newNode = new Node(newData); newNode.next = prevNode.next; prevNode.next = newNode; newNode.prev = prevNode;
+
+if (newNode.next != null)
+newNode.next.prev = newNode;
+
+current
+
+deleteFirst(): delete and return a node from the beginning of the list Node temp=head;
+if (head.next == null)	//if only one item in the list tail = null;
+head.next.prev=null;
+head = head.next; return temp;
+
+Delete a target node
+current ... points to target (node 20) current.next.prev = current.prev;
+current.prev.next = current.next;

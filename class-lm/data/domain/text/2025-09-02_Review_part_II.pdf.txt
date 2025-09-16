@@ -1,0 +1,91 @@
+Review: Generics
+
+Let’s switch to live programming for this one
+
+Review: Nested Classes
+Nested Classes: 4 types
+
+–Static Class –Inner Class
+– a.k.a. non-static nested class –Local Class
+– special type of inner class –Anonymous Class
+– special type of inner class
+
+Why Nested Classes?
+
+– Grouping of related classes – Increase encapsulation
+Static Nested Class Example
+
+class Outer {
+static class StaticNested { /*Code Here*/
+
+void aMethod() {
+StaticNested obj = new StaticNested();
+
+//outside the Outer class...
+Outer.StaticNested obj = new Outer.StaticNested();
+Inner Class Example
+
+class Outer { class Inner {
+ /*Code Here*/
+
+void aMethod() {
+Inner obj = new Inner();
+
+// outside the Outer class... Outer outObj = new Outer();
+Outer.Inner inObj = outObj.new Inner();
+
+// or in just one step
+Outer.Inner inObj = new Outer().new Inner();
+Local Inner Class Example
+
+class Outer
+void aMethod()
+class Local // declared as a local variable
+/*Code Here*/
+
+Local loc = new Local();
+
+/* Can't access Local outside aMethod*/
+Anonymous Inner Class
+
+• An inner class declared without a class name is known as an anonymous inner class.
+
+– declared and instantiated at the same time – only a single object is created
+• An anonymous inner class can be useful when making an instance of an object with certain “extras” such as overloading methods of a class or interface, without having to actually create a subclass
+
+• Anonymous inner classes are useful in writing event listeners, iterators, etc.
+Anonymous Inner Class Example
+
+interface Exporter { public String export();
+
+class MyClass
+public Exporter getExporter()
+Exporter obj = new Exporter()
+public String export()
+return "Export";
+}; //<- very important
+ 	obj.export();
+Anonymous Inner Class Example
+
+interface Exporter { public String export();
+
+class MyClass
+public Exporter getExporter()
+
+return new Exporter()
+
+public String export()
+return "Export";
+
+}; //<- very important
+Nested Class Rules – Lots of them
+
+–Static classes can't access non-static fields & methods of outer class
+
+–Inner classes can't be declared without an instance of the outer class
+
+–Local/Anonymous classes can only access local variables defined as final
+
+–Lots more, see Java Tutorial:
+
+– http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
