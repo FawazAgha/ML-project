@@ -120,16 +120,14 @@ def main() -> None:
         raise SystemExit(f"No .txt files found under '{args.input_dir}'.")
     if args.repeat_input < 1:
         raise SystemExit("--repeat-input must be at least 1")
-    if args.repeat_input == 1:
-        files = [str(path) for path in primary_paths]
-    else:
-        generic_path = (args.input_dir / "generic.txt").resolve()
-        files = []
-        for path in primary_paths:
-            repeat_count = args.repeat_input
-            if path.resolve() == generic_path:
-                repeat_count = max(1, args.repeat_input // 2)
-            files.extend([str(path)] * repeat_count)
+    files: list[str] = []
+    for path in primary_paths:
+        repeat_count = args.repeat_input
+        if args.repeat_input == 1:
+            repeat_count = 1
+        elif "program" in path.name.lower():
+            repeat_count = max(1, args.repeat_input // 6)
+        files.extend([str(path)] * repeat_count)
 
     extra_dirs = []
     for directory in args.extra_dir:

@@ -38,7 +38,7 @@ Key flags:
 - `--lowercase/--no-lowercase` toggles lowercasing during normalisation.
 - `--repeat-input` duplicates the discovered files to up-weight a smaller corpus.
 - `--extra-dir` can be passed multiple times to include additional corpora once (e.g., generic text).
-  `generic.txt` inside the main `--input-dir` is automatically repeated at half the rate of the other files.
+  Files whose names contain `Program` repeat at one-sixth the base rate to avoid over-weighting the assorted program snippets.
 - `--min-frequency` and `--limit-alphabet` mirror Hugging Face defaults.
 - Point `--input-dir` at any folder of `.txt` files if you organise datasets differently.
 
@@ -57,3 +57,54 @@ python class-lm/scripts/build_wordfreq_list.py \
 ```
 
 Adjust the `--language` code or `--top-n` size if you need a different distribution.
+
+## Converting text to binary shards
+
+Once the tokenizer is ready, turn your text corpus into a binary shard for training:
+
+```bash
+python class-lm/scripts/make_token_bin.py \
+  --tokenizer class-lm/tokenizer/wordpiece/tokenizer.json \
+  --input-dir class-lm/data/domain/text \
+  --extra-dir class-lm/data/generic \
+  --output class-lm/data/bins/domain_generic.bin
+```
+
+Flags of note:
+- `--glob` changes which files are picked up (default `*.txt`, recursive).
+- `--extra-dir` can be supplied multiple times to fold in additional corpora without repeating `--input-dir`.
+- `--append-eos/--no-append-eos` controls whether `[SEP]` gets inserted between files.
+- Switch `--dtype` to `uint32` if your tokenizer vocab exceeds 65k entries.
+
+## Training TinyGPT
+
+Launch the training loop (logs, optional sampling, and metrics recording):
+
+```bash
+python3 class-lm/train/training_stage.py \
+  --bin class-lm/data/bins/domain_generic.bin \
+  --vocab 16000 \
+  --tokenizer-path class-lm/tokenizer/wordpiece/tokenizer.json \
+  --sample-every 50 \
+  --sample-count 5 \
+  --sample-prompt "Explain dynamic arrays" \
+  --sample-prompt "What is a heap?" \
+  --log-secs 5 \
+  --out checkpoints
+```
+
+Key extras:
+- Sampling is optional; omit the `--sample-*` flags to disable it.
+- Metrics are written to `checkpoints/metrics.csv` (override with `--metrics-file`).
+- The CSV captures step, loss, perplexity, tokens/sec, and LR for later analysis.
+
+## Plotting training metrics
+
+Render the metrics CSV as a quick loss/perplexity plot:
+
+```bash
+pip install matplotlib
+python class-lm/scripts/plot_training_metrics.py \
+  checkpoints/metrics.csv \
+  --output checkpoints/metrics.png
+```
