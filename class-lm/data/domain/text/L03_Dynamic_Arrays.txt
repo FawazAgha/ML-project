@@ -1,0 +1,408 @@
+CS 310 – Fall 2025
+Data Structures
+L03-Complexity, Dynamic Arrays
+Archange G. Destiné
+adestine@gmu.edu
+Part of slides is
+from Dr. Russell and
+from Dr. Socrates
+
+Outline for Today (Lecture 03)
+Recap from last Lecture (Generics)
+Today:
+Efficient Programming
+Static Arrays
+Linked List (intro… more on Lecture 05)
+Dynamic Arrays
+Notes:
+Coding Warm-Up (DUE Sept 5 / MUST pass all tests)
+Project 1 (Will be released later this week)
+Individual Effort ! Reminder on Academic Standards
+Participation Activities
+
+Academic Standards (from the syllabus)
+Programming projects are considered individual efforts, therefore no sharing of code
+and/or discussion of problem solutions are allowed with anyone except the TA or the
+professor.
+Student projects will be manually and automatically assessed for cheating.
+You may not use any Internet resources to create code or algorithms, besides the
+textbooks, the slides, and Piazza, unless otherwise specified.
+However, you are free to look up the syntax errors your encounter online, to gain an
+understanding of what the syntax error means. The projects we're doing this semester
+can be directly solved using techniques discussed in class, and no outside material is
+needed unless otherwise noted.
+It is your responsibility to lock your computers with a password, to not post your code
+to websites that are publicly accessible, to guard your USB drives and computers, to
+not upload your files to someone else's computer, etc. You will be liable for any access
+gained to your code.
+
+Academic Standards
+
+Need Help. How to request appointment?
+Link:
+Book time with Archange Giscard Destine
+
+Recap - Java Basics - Quick Review
+Object and References…
+Illustration using whiteboard.
+Car c = new Car();
+What is c?
+What happen in the memory when new Car() is
+executed?
+What if we do Car d = c; ?
+
+More on Generics
+Consider those 2 problems…
+
+Unfortunately this doesn’t work because compiler can’t tell
+if T has a compareTo() method
+
+Bounded Type Parameters – Upper Bound
+
+Bounded Type Parameters – Upper Bound
+
+Sometimes Upper bound is not enough
+
+Blank page
+
+Bounded Type Parameters – Lower Bound
+
+Combining Lower Bounds and Upper Bounds
+
+Algorithm Analysis
+Algorithm: Describe the steps to solving problems.
+Algorithm Analysis: Evaluate the efficiency of your approach.
+How to evaluate the efficiency?
+
+Two types of complexities
+Time-complexity
+How does the processing time increase with larger data sets?
+Poor performance: If sorting 10 names takes a second, but
+sorting 10,000 names takes several hours.
+Space-complexity
+How does the memory usage increase with larger data sets?
+Poor example: If processing 10 images requires 5 megabytes,
+but processing 1,000 images needs 5 gigabytes.
+
+Time Complexity
+We will focus on Time Complexity.
+Space Complexity analysis is similar.
+Ex: How long dose it take to process n images?
+How do we measure Time Complexity?
+
+Time Complexity
+
+Time Complexity
+How do we measure Time Complexity?
+Empirical approach… Pro/Cons
+Mathematical approach… Pro/Cons
+
+Analysis Approaches: Empirical
+– Run the program with different n
+– Reasonable approach if no access to the code
+– Can be used to predict performance
+– Machine specific and lacks understanding
+
+Analysis Approaches: Mathematical
+– Can be used to predict performance
+– Independent of machine (instructions->cycles->time)
+– Very difficult to perform
+
+Modeling Code Mathematically
+– Represents complexity as a function of the input
+
+– f(n) where n is some input.
+
+– Example: for a sort, f(n) = n2
+
+– where n is the number of items to sort
+
+– So... if you need to sort n = 5things,
+
+– it will take n2= 52= 25 units (of time/space)
+
+– Compare to n=100 things, and it will take
+
+– n2= 1002= 10,000 units (of time/space)
+– Instead of using f(n)
+
+– When referring to time complexity, will use T(n)
+
+Simple Problems
+Let's look at a simple program and compute T(n)
+void method1(int n, int m) {
+
+int sum = n + m;
+
+int diff = n -m;
+void method2(int n, int m) {
+
+int total =0;
+
+for(int i=0; i<n; i++) {
+
+total += m;
+
+Simple Problems
+T(n) for sequential loops?
+void method3(int n, int m) {
+
+for(int i=0; i<n; i++) {
+
+System.out.println(i);
+
+for(int i=0; i<n; i++) {
+
+System.out.println(i);
+
+T(n) for a one-factor nested loop?
+void method4(int n, int m) {
+System.out.println(n+"x"+n);
+
+for(int i=0; i<n; i++) {
+
+for(int j =0; j <n; j++) {
+
+System.out.println("banana");
+
+– Observation: For large n, the lower order terms of T(n) are
+insignificant and can be discarded
+
+– idea is from calculus, as x tends to infinity
+– (1) Throw out low order terms and (2) approximate the time
+complexity by considering upper/lower bounds.
+
+– greatly simplify analysis
+
+– Eliminates details to simplify model
+
+– e.g. Tilde(~), Big-Oh, Theta, Omega, etc.
+– Independent of machine
+– Can make statements concerning bounds
+– Typically cannot make predictions
+
+Big-O Over-Simplified
+Big-O(micron) simplified version!
+– Define a function to describe your algorithm
+
+– 2n2+ 27
+– Drop the low order terms (+27)
+
+– 2n2
+– Drop the leading constants (2)
+
+- n2
+-  Put an O next to it
+
+– O(n2)
+
+Big-O Identities
+O(k g(n)) = O(g(n)) - for a constant k
+O(g1 (n)) + O(g2 (n)) = O(g1 (n) + g2 (n))
+O(g1(n)) x O(g2(n)) = O(g1 (n) x g2 (n))
+O(g1 (n) + g2 (n) + . . . + gm(n)) = O(max(g1 (n), g2 (n), . . ., gm(n)))
+O(max(g1 (n), g2 (n), . . ., gm(n)) =
+max(O(g1 (n)), O(g2 (n)), . . ., O(gm(n)))
+The time complexity of a sequence of statements in an algorithm or program is
+the sum of the statements’ individual complexities.
+
+Categories of Functions
+
+Quick Rules of Thumb for Industry
+– O(1)
+-usually doing something that takes a fixed amount of time,
+no matter how long that time is
+– O(log n)
+-dividing a problem in half repeatedly and working on only
+one half each time
+– O(n)
+-doing something with each item of data (or a faction of
+the data, like n/2)
+– O(n log n) -dividing a problem in half repeatedly and working on both
+halves each time
+– O(n2)
+-nested loops that both go through all data
+– O(n3)
+-three nested loops that each go through all data
+– O([anything more than nx])-you're usually doing it wrong
+
+Blank page
+
+Big-O (Omicron) formal version!
+T(n) is O(F(n))if there are positive constants c and n0 such that
+when n >= n0
+
+T(n) <= c.F(n)
+– Let’s show that:
+2n+1 is O(n)
+
+f(n) is O(g(n))if there are positive constants c and n0 such that
+when n >= n0
+
+f(n) <= c.g(n)
+
+Other Notations
+Big O(Omicron): Upper bound, “big-oh”
+– T(n) is O(F(n)) if there are positive constants c and n0 such that
+
+– when n >= n0
+
+– T(n) <= cF(n)         Ex:
+Big Ω(Omega): Lower bound
+– T(n) is Ω(F(n)) if there are positive constants c and n0 such that
+
+– when n >= n0
+
+– T(n) >= cF(n)          Ex:
+Big Θ (Theta): Upper and lower bound
+– If something is O(F(n)) and Ω(F(n)) it is Θ(F(n))
+Ex:
+Little o(Omicron): T(n) grows much slower than F(n)
+Little ω(Omega): T(n) grows much faster than F(n)
+
+Static List vs Dynamic List
+What is a List?
+
+Collection of items that have a position.
+Set vs Sequence
+Static List vs Dynamic List
+ADT vs Data Structure
+
+Static Array (White Board)
+Static List
+
+Dynamic List (ADT)
+Invariants
+How do those invariants dictate the algorithms?
+
+Dynamic List Implementation (Data Structures)
+Dynamic List:
+Array-based
+Pointer-based (next week)
+
+Dynamic Array Lists
+Some operations I might perform on a list:
+- set a value (at some index)
+- get a value (at some index)
+- insert a value (to the end)
+- insert a value (at some index)
+- remove a value (at some index)
+- search for a value (and return the index)
+We can have clear specifications (ADT/API) answering those questions.
+Now what implementations, algorithms (Data Structures) solve these
+problems.
+
+Basic Outline…
+set()
+parameter: int index, Object to put there
+return: ??
+get()
+parameter: int index
+return: Object at index
+append()
+parameter: Object to add
+return: ??
+
+Basic Outline…
+insert()
+parameter: int index, Object to put there
+return: ??
+Other types of add…. parameters: Object?
+remove()
+parameter: int index
+return: ??
+Other types of remove… parameter: Object?
+search()
+parameter: Object to find
+return: int index found (or -1 for not found)
+
+Your Turn! Big-Oh
+What is the Big-O of the following operations:
+- set a value (at some index) -- ?
+- get a value (at some index) -- ?
+- append a value (to the end) -- ?
+- add/insert a value (at some index) -- ?
+- remove a value (at some index) -- ?
+- search for a value (and return the index) -- ?
+Hint: is adding/removing different from the front/middle/end?
+- Think about best/worst case?
+
+Blank
+
+Data Structure Operations Big-O
+- Limitations of these structures?
+Operation
+Implementation
+Get set
+Add
+end
+begin
+middle
+search
+Grow?
+Array
+List (Static Array)
+
+Dynamic Arrays
+Java: ArrayList
+Not enough space?
+- Increase the capacity (not size !!!)
+- copy things over to the new (larger) array
+Image Sources: http://en.wikipedia.org/wiki/File:Dynamic_array.svg
+
+Data Structure Operations Big-O
+–Later This Semester: We’ll talk about the “n?” using a new analysis
+technique!
+Operation
+Implementation
+Get set
+Add
+end
+begin
+middle
+search
+Grow?
+Array
+List (Static Array)
+Dynamic Array
+n?
+Yes
+Example of implementation… and code analysis.
+
+ArrayList implementation
+remove(index), O(n), why?
+What about remove_first()?
+
+Dynamic Arrays…-> Circular Array
+A Special implementation
+A data structure using an array as if it is connected end-to-end…
+Think about Search function in a text document.
+What is the time complexity of remove_first()?
+
+Circular Array (Motivation)
+Operation
+Implementation
+Get set
+Add
+end
+begin
+middle
+search
+Grow?
+Array
+List (Static Array)
+Dynamic Array
+n?
+Yes
+Circular Array
+In what situation would a circular array
+be better than a Dynamic Array?
+
+Next Lecture (Lecture 04)
+More on Dynamic Arrays (Recap)
+Iterator
+Linked List
+Reminders:
+You must pass all tests on Coding Warmup.
+Project_1 will be released by Friday
+Make sure you have access to Piazza
