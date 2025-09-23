@@ -7,12 +7,12 @@ Minimal end-to-end language modeling pipeline: clean raw text, train a WordPiece
 - PyTorch (`torch`)
 - Hugging Face `tokenizers`
 - NumPy (`numpy`)
-- Optional: `matplotlib` (plots), `wordfreq` (generic word list)
+- Optional: `matplotlib` (plots)
 
 Example install:
 
 ```bash
-pip install torch tokenizers numpy matplotlib wordfreq
+pip install torch tokenizers numpy matplotlib
 ```
 
 On Apple Silicon, training auto-selects MPS; on NVIDIA, CUDA is used if available.
