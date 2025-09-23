@@ -1,10 +1,48 @@
 # Ignore macOS junk
 .DS_Store
+Icon?
+._*
 
 # Ignore Python cache
 __pycache__/
 *.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.ipynb_checkpoints/
 
 # Ignore virtual environments
 .venv/
 venv/
+
+# Local env/config
+.env
+.env.*
+.python-version
+
+# Build / packaging artefacts
+dist/
+build/
+*.egg-info/
+
+# Logs & metrics
+*.log
+**/metrics.csv
+**/metrics.png
+
+# Training artefacts (large, generated)
+checkpoints/
+
+# Tokenized dataset shards (generated, large)
+data/bins/
+data/*.bin
+
+# Tokenizer artefacts (reproducible)
+tokenizer/wordpiece/tokenizer.json
+tokenizer/wordpiece/tokenizer_config.json
+tokenizer/wordpiece/vocab.txt
+
+# Optional: ignore local corpora (uncomment if you don't want to version text)
+data/text/
+data/text_clean/

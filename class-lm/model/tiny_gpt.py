@@ -1,4 +1,6 @@
-import math, torch, torch.nn as nn
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
 def alibi_bias(n_heads, seq_len, device, dtype):
     # slopes from paper
@@ -30,15 +32,26 @@ class MHA(nn.Module):
         B,T,C = x.size()
         qkv = self.qkv(x).view(B,T,3,self.h,self.dk).permute(2,0,3,1,4) # [3,B,H,T,dk]
         q,k,v = qkv[0], qkv[1], qkv[2]
-        att = (q @ k.transpose(-2,-1)) / math.sqrt(self.dk)              # [B,H,T,T]
+        qf, kf, vf = q.float(), k.float(), v.float()
+
+        causal_bias = torch.triu(
+            torch.full((T, T), float("-inf"), device=x.device, dtype=qf.dtype),
+            diagonal=1,
+        ).view(1, 1, T, T)
+        attn_mask = causal_bias
         if alibi is not None:
-            att = att + alibi[:,0,:T,:T]                                 # add ALiBi
-        mask = torch.ones(T,T, device=x.device, dtype=x.dtype).tril().log()             # causal
-        att = att + mask                                                 # -inf above diag
-        att = att.softmax(dim=-1)
-        att = self.drop(att)
-        y = att @ v                                                      # [B,H,T,dk]
-        y = y.transpose(1,2).contiguous().view(B,T,C)
+            alibi_bias = alibi[:, 0, :T, :T].float().unsqueeze(0)       # [1,H,T,T]
+            attn_mask = attn_mask + alibi_bias
+
+        att = F.scaled_dot_product_attention(
+            qf,
+            kf,
+            vf,
+            attn_mask=attn_mask,
+            dropout_p=self.drop.p if self.training else 0.0,
+            is_causal=False,
+        )
+        y = att.transpose(1,2).contiguous().view(B,T,C).to(x.dtype)
         return self.o(y)
 
 class Block(nn.Module):
