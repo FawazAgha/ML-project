@@ -97,6 +97,12 @@ Key extras:
 - Sampling is optional; omit the `--sample-*` flags to disable it.
 - Metrics are written to `checkpoints/metrics.csv` (override with `--metrics-file`).
 - The CSV captures step, loss, perplexity, tokens/sec, and LR for later analysis.
+- Learning rate scheduling: default is cosine. Other options:
+  - `--lr-scheduler step` with `--lr-scheduler-step-size` / `--lr-scheduler-gamma`.
+  - `--lr-scheduler poly` for polynomial decay (tune aggressiveness via `--lr-scheduler-power`).
+  - `--lr-scheduler none` to keep a flat LR (aside from manual `--lr-decay-step`).
+- Resume mid-run with `--resume checkpoints/ckpt_<step>.pt` and the trainer will restore the
+  model/optimizer/scheduler states and continue from the saved step.
 
 ## Plotting training metrics
 
