@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Train a WordPiece tokenizer on either plain-text files or SQuAD JSON dumps.
+"""Train a WordPiece tokenizer on a folder of plain-text files.
 
-By default the script collects every ``.txt`` file stored under
-``data/text`` (recursively) and uses the Hugging Face ``tokenizers`` library
-to build a WordPiece vocab plus ``tokenizer.json`` bundle. Alternatively you
-can point it at SQuAD-style ``.json`` files via ``--squad-train`` (and
-optionally ``--squad-dev``). The resulting files are written to
-``tokenizer/wordpiece`` by default.
+The script collects every ``.txt`` file under ``data/text`` (recursively) and
+uses the Hugging Face ``tokenizers`` library to build a WordPiece vocab plus
+``tokenizer.json`` bundle. Artefacts are written to ``tokenizer/wordpiece`` by
+default.
 """
 
 from __future__ import annotations
@@ -74,87 +72,9 @@ def parse_args() -> argparse.Namespace:
         default=True,
         help="Apply lowercase normalisation (default: enabled).",
     )
-    parser.add_argument(
-        "--squad-train",
-        type=Path,
-        help="Path to a SQuAD-style training JSON file (optional).",
-    )
-    parser.add_argument(
-        "--squad-dev",
-        type=Path,
-        help="Optional SQuAD-style dev JSON file to include in the corpus.",
-    )
-    args = parser.parse_args()
-    if args.squad_dev and not args.squad_train:
-        parser.error("--squad-dev requires --squad-train to be set")
-    return args
+    return parser.parse_args()
 
 
-def _extract_texts_from_squad(path: Path, split: str) -> tuple[list[str], dict[str, int]]:
-    if not path.exists():
-        raise SystemExit(f"SQuAD {split} file '{path}' does not exist")
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        raise SystemExit(f"Failed to parse SQuAD {split} file '{path}': {exc}") from exc
-
-    samples: list[str] = []
-    contexts = questions = answers = plausible = 0
-    for article in payload.get("data", []):
-        for paragraph in article.get("paragraphs", []):
-            context = (paragraph.get("context") or "").strip()
-            if context:
-                samples.append(context)
-                contexts += 1
-            for qa in paragraph.get("qas", []):
-                question = (qa.get("question") or "").strip()
-                if question:
-                    samples.append(question)
-                    questions += 1
-                for answer in qa.get("answers", []):
-                    text = (answer.get("text") or "").strip()
-                    if text:
-                        samples.append(text)
-                        answers += 1
-                for answer in qa.get("plausible_answers", []):
-                    text = (answer.get("text") or "").strip()
-                    if text:
-                        samples.append(text)
-                        plausible += 1
-
-    stats = {
-        "split": split,
-        "path": str(path),
-        "contexts": contexts,
-        "questions": questions,
-        "answers": answers,
-        "plausible_answers": plausible,
-        "records": len(samples),
-    }
-    if stats["records"] == 0:
-        print(f"Warning: SQuAD {split} file '{path}' yielded zero text entries")
-    return samples, stats
-
-
-def load_squad_texts(train_path: Path, dev_path: Path | None = None) -> tuple[list[str], dict[str, Any]]:
-    train_samples, train_stats = _extract_texts_from_squad(train_path, "train")
-    all_samples = list(train_samples)
-    stats: dict[str, Any] = {
-        "splits": {
-            "train": train_stats,
-        },
-    }
-
-    if dev_path is not None:
-        dev_samples, dev_stats = _extract_texts_from_squad(dev_path, "dev")
-        all_samples.extend(dev_samples)
-        stats["splits"]["dev"] = dev_stats
-
-    total_records = sum(split_stats["records"] for split_stats in stats["splits"].values())
-    stats["total_records"] = total_records
-    stats["num_splits"] = len(stats["splits"])
-    stats["paths"] = [split_stats["path"] for split_stats in stats["splits"].values()]
-    return all_samples, stats
 
 
 def discover_corpus(data_dir: Path) -> list[Path]:
@@ -186,16 +106,8 @@ def build_tokenizer(lowercase: bool) -> Tokenizer:
 
 
 def train_tokenizer(args: argparse.Namespace) -> None:
-    using_squad = args.squad_train is not None
-    if using_squad:
-        samples, squad_stats = load_squad_texts(args.squad_train, args.squad_dev)
-        print(
-            "Training WordPiece on"
-            f" {squad_stats['total_records']} text chunks from SQuAD JSON files..."
-        )
-    else:
-        files = discover_corpus(args.data_dir)
-        print(f"Training WordPiece on {len(files)} files from '{args.data_dir}'...")
+    files = discover_corpus(args.data_dir)
+    print(f"Training WordPiece on {len(files)} files from '{args.data_dir}'...")
     tokenizer = build_tokenizer(lowercase=args.lowercase)
     trainer = WordPieceTrainer(
         vocab_size=args.vocab_size,
@@ -205,10 +117,7 @@ def train_tokenizer(args: argparse.Namespace) -> None:
         limit_alphabet=args.limit_alphabet,
     )
 
-    if using_squad:
-        tokenizer.train_from_iterator(samples, trainer, length=len(samples))
-    else:
-        tokenizer.train([str(path) for path in files], trainer)
+    tokenizer.train([str(path) for path in files], trainer)
 
     output_dir = args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -226,18 +135,12 @@ def train_tokenizer(args: argparse.Namespace) -> None:
         "limit_alphabet": args.limit_alphabet,
         "tokenizer_json": str(tokenizer_json),
         "vocab_files": [str(path) for path in vocab_paths],
-    }
-    if using_squad:
-        config["corpus"] = {
-            "type": "squad",
-            "stats": squad_stats,
-        }
-    else:
-        config["corpus"] = {
+        "corpus": {
             "type": "text",
             "num_files": len(files),
             "files": [str(path) for path in files],
-        }
+        },
+    }
     (output_dir / "tokenizer_config.json").write_text(
         json.dumps(config, indent=2),
         encoding="utf-8",

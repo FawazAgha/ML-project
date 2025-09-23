@@ -35,13 +35,15 @@ build/
 checkpoints/
 
 # Tokenized dataset shards (generated, large)
-data/bins/
-data/*.bin
+# If you want to keep bins versioned, leave these commented.
+# data/bins/
+# data/*.bin
 
 # Tokenizer artefacts (reproducible)
-tokenizer/wordpiece/tokenizer.json
-tokenizer/wordpiece/tokenizer_config.json
-tokenizer/wordpiece/vocab.txt
+# Un-ignore if you want to version tokenizer outputs.
+# tokenizer/wordpiece/tokenizer.json
+# tokenizer/wordpiece/tokenizer_config.json
+# tokenizer/wordpiece/vocab.txt
 
 # Optional: ignore local corpora (uncomment if you don't want to version text)
 data/text/

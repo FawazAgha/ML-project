@@ -28,8 +28,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("data/generic/freqword.txt"),
-        help="Output path for the newline-separated word list.",
+        default=Path("class-lm/data/generic/freqword.txt"),
+        help="Output path for the newline-separated word list (default: class-lm/data/generic/freqword.txt).",
     )
     return parser.parse_args()
 

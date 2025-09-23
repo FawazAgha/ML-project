@@ -1,116 +1,112 @@
-# ML-project
-## Cleaning converted text files
+# class-lm
 
-Use `scripts/clean_text_corpus.py` to tidy `.txt` files produced from PDFs.
+Minimal end-to-end language modeling pipeline: clean raw text, train a WordPiece tokenizer, convert to token bins, train a tiny GPT with ALiBi attention, and track metrics/samples.
 
-Example workflow:
+## Requirements
+- Python 3.9+
+- PyTorch (`torch`)
+- Hugging Face `tokenizers`
+- NumPy (`numpy`)
+- Optional: `matplotlib` (plots), `wordfreq` (generic word list)
+
+Example install:
 
 ```bash
-python scripts/clean_text_corpus.py \
+pip install torch tokenizers numpy matplotlib wordfreq
+```
+
+On Apple Silicon, training auto-selects MPS; on NVIDIA, CUDA is used if available.
+
+## Repository Layout
+- `class-lm/scripts/`: utilities for cleaning/conversion/tokenizer training
+- `class-lm/model/tiny_gpt.py`: TinyGPT model with ALiBi attention
+- `class-lm/train/training_stage.py`: training loop + sampling + logging
+- `class-lm/train/dset.py`: `PackedBinDataset` for `.bin` token files
+- `class-lm/tokenizer/wordpiece/`: tokenizer artefacts (`tokenizer.json`, `vocab.txt`, `tokenizer_config.json`)
+- `class-lm/data/`: corpora and generated bins
+- `checkpoints/`: saved checkpoints and metrics
+
+## Typical Workflow
+
+1) Clean converted text (optional but recommended)
+
+```bash
+python class-lm/scripts/clean_text_corpus.py \
   --input-dir class-lm/data/domain/text \
   --output-dir class-lm/data/domain/cleaned \
   --auto-remove-repeated-lines \
   --remove-pattern "^Page [0-9]+ of [0-9]+$"
 ```
 
-Key flags:
-- `--in-place` overwrites the originals instead of writing to `cleaned/`.
-- `--collapse-internal-spaces` aggressively collapses whitespace within lines (leave off for code snippets).
-- `--dry-run` reports changes without touching the files, useful to validate the heuristics first.
+Notes:
+- `--in-place` overwrites originals instead of writing to `cleaned/`.
+- Other helpful flags: `--collapse-internal-spaces`, `--normalize-ligatures`, `--drop-numeric-lines`, `--join-short-lines`.
 
-## Training a WordPiece tokenizer
-
-1. Install dependencies (ideally in a virtualenv):
- ```bash
-  pip install tokenizers
-  ```
-2. Feed the cleaned corpus into the trainer:
-   ```bash
-python class-lm/scripts/train_wordpiece_tokenizer.py \
-  --input-dir class-lm/data/domain/text \
-  --output-dir class-lm/tokenizer/wordpiece \
-  --vocab-size 16000 \
-  --repeat-input 20 \
-  --extra-dir class-lm/data/generic
-   ```
-
-Key flags:
-- `--lowercase/--no-lowercase` toggles lowercasing during normalisation.
-- `--repeat-input` duplicates the discovered files to up-weight a smaller corpus.
-- `--extra-dir` can be passed multiple times to include additional corpora once (e.g., generic text).
-  Files whose names contain `Program` repeat at one-sixth the base rate to avoid over-weighting the assorted program snippets.
-- `--min-frequency` and `--limit-alphabet` mirror Hugging Face defaults.
-- Point `--input-dir` at any folder of `.txt` files if you organise datasets differently.
-
-Outputs land in the chosen `--output-dir` as `tokenizer.json`, `vocab.txt`, and a `tokenizer_config.json` snapshot of the settings used.
-
-## Building a high-frequency word list
-
-Generate a supplementary generic word list (requires `wordfreq`):
+2) Train a WordPiece tokenizer
 
 ```bash
-pip install wordfreq
-python class-lm/scripts/build_wordfreq_list.py \
-  --language en \
-  --top-n 50000 \
-  --output class-lm/data/generic/freqword.txt
+python class-lm/scripts/train_wordpiece_tokenizer.py \
+  --data-dir class-lm/data/domain/text \
+  --output-dir class-lm/tokenizer/wordpiece \
+  --vocab-size 16000 \
+  --min-frequency 2 \
+  --limit-alphabet 1000 \
+  --lowercase
 ```
 
-Adjust the `--language` code or `--top-n` size if you need a different distribution.
+Outputs: `class-lm/tokenizer/wordpiece/tokenizer.json`, `vocab.txt`, and `tokenizer_config.json` (settings snapshot).
 
-## Converting text to binary shards
-
-Once the tokenizer is ready, turn your text corpus into a binary shard for training:
+3) Convert text to a binary token shard
 
 ```bash
 python class-lm/scripts/make_token_bin.py \
   --tokenizer class-lm/tokenizer/wordpiece/tokenizer.json \
   --input-dir class-lm/data/domain/text \
   --extra-dir class-lm/data/generic \
-  --output class-lm/data/bins/domain_generic.bin
+  --output class-lm/data/bins/domain_generic.bin \
+  --append-eos
 ```
 
-Flags of note:
-- `--glob` changes which files are picked up (default `*.txt`, recursive).
-- `--extra-dir` can be supplied multiple times to fold in additional corpora without repeating `--input-dir`.
-- `--append-eos/--no-append-eos` controls whether `[SEP]` gets inserted between files.
-- Switch `--dtype` to `uint32` if your tokenizer vocab exceeds 65k entries.
+- `--glob` adjusts which files are discovered (default `*.txt`).
+- Use `--dtype uint32` if your vocab > 65k tokens.
 
-## Training TinyGPT
-
-Launch the training loop (logs, optional sampling, and metrics recording):
+4) Train TinyGPT
 
 ```bash
-python3 class-lm/train/training_stage.py \
+python class-lm/train/training_stage.py \
   --bin class-lm/data/bins/domain_generic.bin \
   --vocab 16000 \
-  --tokenizer-path class-lm/tokenizer/wordpiece/tokenizer.json \
-  --sample-every 50 \
-  --sample-count 5 \
+  --layers 10 --dmodel 512 --heads 8 --ff 2048 --dropout 0.2 \
+  --seq 512 --mb 16 --accum 8 \
+  --lr 2e-5 --steps 6000 \
+  --sample-every 100 --sample-count 5 --sample-max-new 80 \
   --sample-prompt "Explain dynamic arrays" \
   --sample-prompt "What is a heap?" \
   --log-secs 5 \
-  --out checkpoints
+  --out checkpoints/text-3p6M
 ```
 
-Key extras:
-- Sampling is optional; omit the `--sample-*` flags to disable it.
-- Metrics are written to `checkpoints/metrics.csv` (override with `--metrics-file`).
-- The CSV captures step, loss, perplexity, tokens/sec, and LR for later analysis.
-- Learning rate scheduling: default is cosine. Other options:
-  - `--lr-scheduler step` with `--lr-scheduler-step-size` / `--lr-scheduler-gamma`.
-  - `--lr-scheduler poly` for polynomial decay (tune aggressiveness via `--lr-scheduler-power`).
-  - `--lr-scheduler none` to keep a flat LR (aside from manual `--lr-decay-step`).
-- Resume mid-run with `--resume checkpoints/ckpt_<step>.pt` and the trainer will restore the
-  model/optimizer/scheduler states and continue from the saved step.
+- Device selection: prefers MPS (Apple), otherwise CUDA if available, else CPU.
+- LR scheduling: `--lr-scheduler {cosine,step,poly,none}` (+ warmup options).
+- Resume: `--resume checkpoints/ckpt_<step>.pt` restores model/optimizer/scheduler.
+- Validation (optional): `--val-bin`, `--val-every`, `--val-mb`, `--val-max-batches`.
+- Metrics CSV: `checkpoints/metrics.csv` by default (override with `--metrics-file`).
 
-## Plotting training metrics
-
-Render the metrics CSV as a quick loss/perplexity plot:
+5) Plot metrics
 
 ```bash
-pip install matplotlib
 python class-lm/scripts/plot_training_metrics.py \
   checkpoints/metrics.csv \
   --output checkpoints/metrics.png
 ```
+
+## What’s Already Here (examples)
+- Tokenizer: `class-lm/tokenizer/wordpiece/{tokenizer.json,vocab.txt,tokenizer_config.json}`
+- Token bins: `class-lm/data/bins/domain_generic.bin`, `class-lm/data/bins/text-corpus.bin`
+- Metrics: `checkpoints/metrics.csv`, `checkpoints/metrics.png`
+- Checkpoint: `checkpoints/text-3p6M/ckpt_6000.pt`
+
+## Tips
+- Run commands from the repository root so relative paths resolve.
+- `PackedBinDataset` expects the `.bin` dtype you used when writing (default `uint16`).
+- You can also run the trainer as a module: `python -m class-lm.train.training_stage --bin ...`

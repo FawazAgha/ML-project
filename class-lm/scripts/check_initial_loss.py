@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 import torch
-from class_lm.train.dset import PackedBinDataset
-from class_lm.model.tiny_gpt import TinyGPT
+from pathlib import Path
+import sys
+
+# Allow running as a script from repo root
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.append(str(_ROOT))
+
+from train.dset import PackedBinDataset
+from model.tiny_gpt import TinyGPT
 
 
 def main() -> None:
