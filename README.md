@@ -1,6 +1,8 @@
-# class-lm
+# class‑lm (my tiny LM playground)
 
-Minimal end-to-end language modeling pipeline: clean raw text, train a WordPiece tokenizer, convert to token bins, train a tiny GPT with ALiBi attention, and track metrics/samples.
+This is my attempt at making a language model. Parameters were kept very small compared to todays standards becasuse of the lack of compute power I have. The model was trained on my macbook. Acheived a loss of 1.3 after 6000 steps, but the model and dataset were too small to acheive any coherant results. Though there was some promise, the model was picking some words that were related to the prompt input. 
+
+Pipeline: clean some raw text, train a WordPiece tokenizer, turn text into token bins, and train a tiny GPT with ALiBi attention, then sample.
 
 ## Requirements
 - Python 3.9+
@@ -15,20 +17,19 @@ Example install:
 pip install torch tokenizers numpy matplotlib
 ```
 
-On Apple Silicon, training auto-selects MPS; on NVIDIA, CUDA is used if available.
+On Apple Silicon, training auto‑selects MPS; on NVIDIA, CUDA is used if available.
 
-## Repository Layout
-- `class-lm/scripts/`: utilities for cleaning/conversion/tokenizer training
-- `class-lm/model/tiny_gpt.py`: TinyGPT model with ALiBi attention
-- `class-lm/train/training_stage.py`: training loop + sampling + logging
-- `class-lm/train/dset.py`: `PackedBinDataset` for `.bin` token files
-- `class-lm/tokenizer/wordpiece/`: tokenizer artefacts (`tokenizer.json`, `vocab.txt`, `tokenizer_config.json`)
-- `class-lm/data/`: corpora and generated bins
-- `checkpoints/`: saved checkpoints and metrics
+## What’s inside
+- `class-lm/scripts/` – small utilities for cleaning, tokenizing, and plotting
+- `class-lm/model/tiny_gpt.py` – Tiny GPT with ALiBi attention
+- `class-lm/train/training_stage.py` – training loop + sampling + logging
+- `class-lm/train/dset.py` – `PackedBinDataset` for `.bin` token files
+- `class-lm/tokenizer/wordpiece/` – tokenizer artifacts (`tokenizer.json`, `vocab.txt`, `tokenizer_config.json`)
+- `class-lm/data/` – data and generated bins
 
-## Typical Workflow
+## How I run it
 
-1) Clean converted text (optional but recommended)
+1) Clean text (optional but recommended)
 
 ```bash
 python class-lm/scripts/clean_text_corpus.py \
@@ -40,7 +41,8 @@ python class-lm/scripts/clean_text_corpus.py \
 
 Notes:
 - `--in-place` overwrites originals instead of writing to `cleaned/`.
-- Other helpful flags: `--collapse-internal-spaces`, `--normalize-ligatures`, `--drop-numeric-lines`, `--join-short-lines`.
+- Handy flags: `--collapse-internal-spaces`, `--normalize-ligatures`, `--drop-numeric-lines`, `--join-short-lines`.
+- You can also add other patterns to remove.
 
 2) Train a WordPiece tokenizer
 
@@ -54,9 +56,9 @@ python class-lm/scripts/train_wordpiece_tokenizer.py \
   --lowercase
 ```
 
-Outputs: `class-lm/tokenizer/wordpiece/tokenizer.json`, `vocab.txt`, and `tokenizer_config.json` (settings snapshot).
+Outputs: `class-lm/tokenizer/wordpiece/tokenizer.json`, `vocab.txt`, and `tokenizer_config.json`.
 
-3) Convert text to a binary token shard
+3) Turn text into a binary token file
 
 ```bash
 python class-lm/scripts/make_token_bin.py \
@@ -67,7 +69,7 @@ python class-lm/scripts/make_token_bin.py \
   --append-eos
 ```
 
-- `--glob` adjusts which files are discovered (default `*.txt`).
+- `--glob` controls file discovery (default `*.txt`).
 - Use `--dtype uint32` if your vocab > 65k tokens.
 
 4) Train TinyGPT
@@ -86,11 +88,12 @@ python class-lm/train/training_stage.py \
   --out checkpoints/text-3p6M
 ```
 
-- Device selection: prefers MPS (Apple), otherwise CUDA if available, else CPU.
-- LR scheduling: `--lr-scheduler {cosine,step,poly,none}` (+ warmup options).
-- Resume: `--resume checkpoints/ckpt_<step>.pt` restores model/optimizer/scheduler.
-- Validation (optional): `--val-bin`, `--val-every`, `--val-mb`, `--val-max-batches`.
-- Metrics CSV: `checkpoints/metrics.csv` by default (override with `--metrics-file`).
+Some notes:
+- Device picks MPS (Apple) first, then CUDA, then CPU.
+- LR scheduling: `--lr-scheduler {cosine,step,poly,none}` (+ warmup flags).
+- Resume with `--resume checkpoints/ckpt_<step>.pt`.
+- Optional validation: `--val-bin`, `--val-every`, `--val-mb`, `--val-max-batches`.
+- Metrics CSV defaults to `checkpoints/metrics.csv` (override with `--metrics-file`).
 
 5) Plot metrics
 
@@ -100,13 +103,12 @@ python class-lm/scripts/plot_training_metrics.py \
   --output checkpoints/metrics.png
 ```
 
-## What’s Already Here (examples)
+## What’s already here (examples)
 - Tokenizer: `class-lm/tokenizer/wordpiece/{tokenizer.json,vocab.txt,tokenizer_config.json}`
 - Token bins: `class-lm/data/bins/domain_generic.bin`, `class-lm/data/bins/text-corpus.bin`
-- Metrics: `checkpoints/metrics.csv`, `checkpoints/metrics.png`
-- Checkpoint: `checkpoints/text-3p6M/ckpt_6000.pt`
+- Metrics: `loss plot/metrics.png`
 
 ## Tips
-- Run commands from the repository root so relative paths resolve.
-- `PackedBinDataset` expects the `.bin` dtype you used when writing (default `uint16`).
-- You can also run the trainer as a module: `python -m class-lm.train.training_stage --bin ...`
+- Run commands from the repo root so relative paths resolve.
+- `PackedBinDataset` must match the `.bin` dtype you used when writing (default `uint16`).
+- You can also run as a module: `python -m class-lm.train.training_stage --bin ...`
