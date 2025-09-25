@@ -1,4 +1,4 @@
-# class‑lm (my tiny LM playground)
+# class‑lm tiny-gpt attempt
 
 This is my attempt at making a language model. Parameters were kept very small compared to todays standards becasuse of the lack of compute power I have. The model was trained on my macbook. Acheived a loss of 1.3 after 6000 steps, but the model and dataset were too small to acheive any coherant results. Though there was some promise, the model was picking some words that were related to the prompt input. 
 
