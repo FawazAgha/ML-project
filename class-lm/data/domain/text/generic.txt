@@ -1,0 +1,1669 @@
+Big O Notation Tutorial - A Guide to Big O Analysis
+Last Updated : 27 Aug, 2025
+Big O notation is a powerful tool used in computer science to describe the time complexity or space complexity of algorithms. Big-O is a way to express the upper bound of an algorithm’s time or space complexity.
+
+Describes the asymptotic behavior (order of growth of time or space in terms of input size) of a function, not its exact value.
+Can be used to compare the efficiency of different algorithms or data structures.
+It provides an upper limit on the time taken by an algorithm in terms of the size of the input. We mainly consider the worst case scenario of the algorithm to find its time complexity in terms of Big O
+It’s denoted as O(f(n)), where f(n) is a function that represents the number of operations (steps) that an algorithm performs to solve a problem of size n.
+big-o-analysis-banner
+
+Table of Content
+
+BIg O Definition
+Importance of Big O Notation
+A Quick Way to find Big O of an Expression
+Properties of Big O Notation
+Common Big-O Notations
+Determining Big O Notation
+Algorithm Classes with Number of Operations and Execution Time
+Comparison of Big O Notation, Big Ω (Omega) Notation, and Big θ (Theta) Notation
+Big O Definition
+Given two functions f(n) and g(n), we say that f(n) is O(g(n)) if there exist constants c > 0 and n0 >= 0 such that f(n) <= c*g(n) for all n >= n0.
+
+In simpler terms, f(n) is O(g(n)) if f(n) grows no faster than c*g(n) for all n >= n0 where c and n0 are constants.
+
+big-o-image
+
+Importance of Big O Notation
+Big O notation is a mathematical notation used to find an upper bound on time taken by an algorithm or data structure. It provides a way to compare the performance of different algorithms and data structures, and to predict how they will behave as the input size increases.
+
+Big O notation is important for several reasons:
+
+Big O Notation is important because it helps analyze the efficiency of algorithms.
+It provides a way to describe how the runtime or space requirements of an algorithm grow as the input size increases.
+Allows programmers to compare different algorithms and choose the most efficient one for a specific problem.
+Helps in understanding the scalability of algorithms and predicting how they will perform as the input size grows.
+Enables developers to optimize code and improve overall performance.
+A Quick Way to find Big O of an Expression
+Ignore the lower order terms and consider only highest order term.
+Ignore the constant associated with the highest order term.
+Example 1:  f(n) = 3n2 + 2n + 1000Logn +  5000
+After ignoring lower order terms, we get the highest order term as 3n2
+After ignoring the constant 3, we get n2
+Therefore the Big O value of this expression is O(n2)
+
+Example 2 :  f(n) = 3n3 + 2n2 + 5n + 1
+Dominant Term: 3n3
+Order of Growth: Cubic (n3)
+Big O Notation: O(n3)
+
+Properties of Big O Notation
+Below are some important Properties of Big O Notation:
+
+1. Reflexivity
+For any function f(n), f(n) = O(f(n)).
+
+Example:
+
+f(n) = n2, then f(n) = O(n2).
+
+2. Transitivity
+If f(n) = O(g(n)) and g(n) = O(h(n)), then f(n) = O(h(n)).
+
+Example:
+
+If f(n) = n^2, g(n) = n^3, and h(n) = n^4, then f(n) = O(g(n)) and g(n) = O(h(n)). 
+Therefore, by transitivity, f(n) = O(h(n)).
+
+3. Constant Factor
+For any constant c > 0 and functions f(n) and g(n), if f(n) = O(g(n)), then cf(n) = O(g(n)).
+
+Example:
+
+f(n) = n, g(n) = n2. Then f(n) = O(g(n)). Therefore, 2f(n) = O(g(n)).
+
+4. Sum Rule
+If f(n) = O(g(n)) and h(n) = O(k(n)), then f(n) + h(n) = O(max( g(n), k(n) ) When combining complexities, only the largest term dominates.
+
+Example:
+
+f(n) = n2, h(n) = n3. Then , f(n) + h(n) = O(max(n2 + n3) = O ( n3)
+
+5. Product Rule
+If f(n) = O(g(n)) and h(n) = O(k(n)), then f(n) * h(n) = O(g(n) * k(n)).
+
+Example:
+
+f(n) = n, g(n) = n2, h(n) = n3, k(n) = n4. Then f(n) = O(g(n)) and h(n) = O(k(n)). Therefore, f(n) * h(n) = O(g(n) * k(n)) = O(n6).
+
+6. Composition Rule
+If f(n) = O(g(n)), then f(h(n)) = O(g(h(n))).
+
+Example:
+
+If 
+f
+(
+n
+)
+=
+n
+2
+f(n)=n 
+2
+ , 
+g
+(
+n
+)
+=
+n
+3
+g(n)=n 
+3
+ and 
+h
+(
+n
+)
+=
+l
+o
+g
+n
+h(n)=logn, then by composition rule f(h(n))=O(g(h(n))). Therefore, 
+(
+l
+o
+g
+n
+)
+2
+=
+O
+(
+(
+l
+o
+g
+n
+)
+3
+)
+(logn) 
+2
+ =O((logn) 
+3
+ ).
+
+Common Big-O Notations
+Big-O notation is a way to measure the time and space complexity of an algorithm. It describes the upper bound of the complexity in the worst-case scenario. Let’s look into the different types of time complexities:
+
+1. Linear Time Complexity: Big O(n) Complexity
+Linear time complexity means that the running time of an algorithm grows linearly with the size of the input.
+
+For example, consider an algorithm that traverses through an array to find a specific element:
+
+
+
+
+bool findElement(int arr[], int n, int key)
+{
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == key) {
+            return true;
+        }
+    }
+    return false;
+}
+2. Logarithmic Time Complexity: Big O(log n) Complexity
+Logarithmic time complexity means that the running time of an algorithm is proportional to the logarithm of the input size.
+
+For example, a binary search algorithm has a logarithmic time complexity:
+
+
+
+
+int binarySearch(int arr[], int l, int r, int x)
+{
+    if (r >= l) {
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == x)
+            return mid;
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+        return binarySearch(arr, mid + 1, r, x);
+    }
+    return -1;
+}
+3. Quadratic Time Complexity: Big O(n2) Complexity
+Quadratic time complexity means that the running time of an algorithm is proportional to the square of the input size.
+
+For example, a simple bubble sort algorithm has a quadratic time complexity:
+
+
+
+
+void bubbleSort(int arr[], int n)
+{
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+}
+4. Cubic Time Complexity: Big O(n3) Complexity
+Cubic time complexity means that the running time of an algorithm is proportional to the cube of the input size.
+
+For example, a naive matrix multiplication algorithm has a cubic time complexity:
+
+
+
+
+void multiply(int mat1[][N], int mat2[][N], int res[][N])
+{
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            res[i][j] = 0;
+            for (int k = 0; k < N; k++)
+                res[i][j] += mat1[i][k] * mat2[k][j];
+        }
+    }
+}
+5. Polynomial Time Complexity: Big O(nk) Complexity
+Polynomial time complexity refers to the time complexity of an algorithm that can be expressed as a polynomial function of the input size n. In Big O notation, an algorithm is said to have polynomial time complexity if its time complexity is O(nk), where k is a constant and represents the degree of the polynomial.
+
+Algorithms with polynomial time complexity are generally considered efficient, as the running time grows at a reasonable rate as the input size increases. Common examples of algorithms with polynomial time complexity include linear time complexity O(n), quadratic time complexity O(n2), and cubic time complexity O(n3).
+
+6. Exponential Time Complexity: Big O(2n) Complexity
+Exponential time complexity means that the running time of an algorithm doubles with each addition to the input data set.
+
+For example, the problem of generating all subsets of a set is of exponential time complexity:
+
+
+
+
+void generateSubsets(int arr[], int n)
+{
+    for (int i = 0; i < (1 << n); i++) {
+        for (int j = 0; j < n; j++) {
+            if (i & (1 << j)) {
+                cout << arr[j] << " ";
+            }
+        }
+        cout << endl;
+    }
+}
+7. Factorial Time Complexity: Big O(n!) Complexity
+Factorial time complexity means that the running time of an algorithm grows factorially with the size of the input. This is often seen in algorithms that generate all permutations of a set of data.
+
+Here’s an example of a factorial time complexity algorithm, which generates all permutations of an array:
+
+
+
+
+void permute(int* a, int l, int r)
+{
+    if (l == r) {
+        for (int i = 0; i <= r; i++) {
+            cout << a[i] << " ";
+        }
+        cout << endl;
+    }
+    else {
+        for (int i = l; i <= r; i++) {
+            swap(a[l], a[i]);
+            permute(a, l + 1, r);
+            swap(a[l], a[i]); // backtrack
+        }
+    }
+}
+If we plot the most common Big O notation examples, we would have graph like this:
+
+asymtotic-analysis
+
+Mathematical Examples of Runtime Analysis
+Below table illustrates the runtime analysis of different orders of algorithms as the input size (n) increases.
+
+n	log(n)	n	n * log(n)	n^2	2^n	n!
+10	1	10	10	100	1024	3628800
+20	2.996	20	59.9	400	1048576	2.432902e+1818
+Algorithmic Examples of Runtime Analysis
+Below table categorizes algorithms based on their runtime complexity and provides examples for each type.
+
+Type	Notation	Example Algorithms
+Logarithmic	O(log n)	Binary Search
+Linear	O(n)	Linear Search
+Superlinear	O(n log n)	Heap Sort, Merge Sort
+Polynomial	O(n^c)	Strassen’s Matrix Multiplication, Bubble Sort, Selection Sort, Insertion Sort, Bucket Sort
+Exponential	O(c^n)	Tower of Hanoi
+Factorial	O(n!)	Determinant Expansion by Minors, Brute force Search algorithm for Traveling Salesman Problem
+Algorithm Classes with Number of Operations
+Below are the classes of algorithms and their number of operations assuming that there are no constants.
+
+Big O Notation Classes
+
+f(n)
+
+Big O Analysis (number of operations) for n = 10
+
+constant
+
+O(1)
+
+1
+
+logarithmic
+
+O(logn)
+
+3.32
+
+linear
+
+O(n)
+
+10
+
+O(nlogn)
+
+O(nlogn)
+
+33.2
+
+quadratic
+
+O(n2)
+
+102
+
+cubic
+
+O(n3)
+
+103
+
+exponential
+
+O(2n)
+
+1024
+
+factorial
+
+O(n!)
+
+10!
+
+Comparison of Big O Notation, Big Ω (Omega) Notation, and Big θ (Theta) Notation
+Below is a table comparing Big O notation, Ω (Omega) notation, and θ (Theta) notation:
+
+Notation	Definition	Explanation
+Big O (O)	f(n) ≤ C * g(n) for all n ≥ n0	Describes the upper bound of the algorithm's running time. Used most of the time.
+Ω (Omega)	f(n) ≥ C * g(n) for all n ≥ n0	Describes the lower bound of the algorithm's running time . Used less
+θ (Theta)	C1 * g(n) ≤ f(n) ≤ C2 * g(n) for n ≥ n0	Describes both the upper and lower bounds of the algorithm's running time. Also used a lot more and preferred over Big O if we can find an exact bound.
+In each notation:
+
+f(n) represents the function being analyzed, typically the algorithm's time complexity.
+g(n) represents a specific function that bounds f(n).
+C, C1​, and C2​ are constants.
+n0​ is the minimum input size beyond which the inequality holds.
+These notations are used to analyze algorithms based on their worst-case (Big O), best-case (Ω) and average-case (θ) scenarios.
+
+Singly Linked List Tutorial
+Last Updated : 09 Sep, 2025
+A singly linked list is a fundamental data structure, it consists of nodes where each node contains a data field and a reference to the next node in the linked list. The next of the last node is null, indicating the end of the list. Linked Lists support efficient insertion and deletion operations.
+
+link1
+Understanding Node Structure
+In a singly linked list, each node consists of two parts: data and a pointer to the next node. This structure allows nodes to be dynamically linked together, forming a chain-like sequence.
+
+
+// Definition of a Node in a singly linked list
+public class Node {
+    
+    // Data part of the node
+    int data;
+    
+    // Pointer to the next node in the list
+    Node next;
+
+    // Constructor to initialize the node with data
+    public Node(int data){
+        this.data = data;
+        this.next = null;
+    }
+}
+In this example, the Node class contains an integer data field (data) to store the information and a pointer to another Node (next) to establish the link to the next node in the list.
+
+Creating an Example Linked List of Size 3 to Understand Working
+Create the first node
+
+Allocate memory for the first node and Store data in it.
+Mark this node as head.
+Create the second node
+
+Allocate memory for the second node and Store data in it.
+Link the first node’s next to this new node.
+Create the third node
+
+Allocate memory for the third node and Store data in it.
+Link the second node’s next to this node.
+Set its next to NULL to ensure that the next of the last is NULL.
+
+
+
+public static void main(String[] args) {
+        // Create the first node (head of the list)
+        Node head = new Node(10);
+​
+        // Link the second node
+        head.next = new Node(20);
+​
+        // Link the third node
+        head.next.next = new Node(30);
+​
+        // Link the fourth node
+        head.next.next.next = new Node(40);
+    }
+}
+Applications of Linked List
+3-.webp3-.webp
+
+
+Advantage
+Dynamic size (no fixed limit like arrays)
+Efficient insertion and deletion (especially in the middle)
+Can implement complex data structures like stack, queue, graph
+Disadvantage
+Extra memory required for storing pointers
+No direct/random access (need traversal)
+Cache unfriendly (not stored in contiguous memory)
+Common Operation in Linked List
+A linked list supports several operations. Here are the most common ones:
+
+Traversal : Used to display elements or search for a particular value.
+Insertion : At the beginning, At the end and At a specific position
+Deletion : From beginning, From end and From a specific position
+Searching : Find whether a given key exists in the list
+Updating (Modification) : Modify contents of linked list.
+Reversal : Reverse the linked list and make the last node as new head.
+
+Doubly Linked List Tutorial
+Last Updated : 10 Sep, 2025
+A doubly linked list is a more complex data structure than a singly linked list, but it offers several advantages. The main advantage of a doubly linked list is that it allows for efficient traversal of the list in both directions. This is because each node in the list contains a pointer to the previous node and a pointer to the next node. This allows for quick and easy insertion and deletion of nodes from the list, as well as efficient traversal of the list in both directions.
+
+11
+Representation of Doubly Linked List in Data Structure
+In a data structure, a doubly linked list is represented using nodes that have three fields:
+
+Data
+A pointer to the next node (next)
+A pointer to the previous node (prev)
+22
+Node Definition
+Here is how a node in a Doubly Linked List is typically represented:
+
+Try it on GfG Practice
+redirect icon
+
+
+
+class Node {
+​
+    // To store the Value or data.
+    int data;
+​
+    // Reference to the Previous Node
+    Node prev;
+  
+    // Reference to the next Node
+    Node next;
+  
+    // Constructor
+    Node(int d) {
+       data = d;
+       prev = next = null;      
+    }
+};
+Each node in a Doubly Linked List contains the data it holds, a pointer to the next node in the list, and a pointer to the previous node in the list. By linking these nodes together through the next and prev pointers, we can traverse the list in both directions (forward and backward), which is a key feature of a Doubly Linked List.
+
+Creating a Doubly Linked List with 4 Nodes
+Create the head node.
+
+Allocate a node and set head to it. Its prev and next should be null/None.
+Create the next node and link it to head.
+
+head.next = new Node(value2)
+head.next.prev = head
+Create further nodes the same way.
+
+For the third node:
+=> head.next.next = new Node(value3)
+=> head.next.next.prev = head.next
+Repeat until you have the required nodes.
+Ensure the tail's next is null.
+The last node you created must have next == null
+
+Set / keep track of head (and optionally tail).
+Use head to access the list from the front. Keeping a tail pointer simplifies appends.
+
+
+
+
+class Node {
+    int data;
+    Node prev;
+    Node next;
+​
+    Node(int value) {
+        data = value;
+        prev = null;
+        next = null;
+    }
+}
+​
+class GfG {
+    public static void main(String[] args) {
+        // Create the first node (head of the list)
+        Node head = new Node(10);
+​
+        // Create and link the second node
+        head.next = new Node(20);
+        head.next.prev = head;
+​
+        // Create and link the third node
+        head.next.next = new Node(30);
+        head.next.next.prev = head.next;
+​
+        // Create and link the fourth node
+        head.next.next.next = new Node(40);
+        head.next.next.next.prev = head.next.next;
+​
+        // Traverse the list forward and print elements
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data);
+            if (temp.next != null) {
+                System.out.print(" <-> ");
+            }
+            temp = temp.next;
+        }
+    }
+}
+
+Output
+10 <-> 20 <-> 30 <-> 40
+Application of Doubly Linked List
+1.webp1.webp
+
+Advantages of Doubly Linked List
+Bidirectional Traversal
+=> You can traverse forward (using next) as well as backward (using prev).
+Efficient Deletion
+=> Given a pointer to a node, you can delete it in O(1) time (no need to traverse from the head), since you can update both prev and next.
+Insertion at Both Ends
+=> Insertion at head or tail is efficient because you can update both directions easily.
+Easy to Implement Deque / Navigation Features
+=> Useful for undo/redo, browser history, and music playlist navigation, where both forward and backward movement is needed.
+Disadvantages of Doubly Linked List
+Extra Memory Per Node
+=> Each node requires an additional pointer (prev), making DLL more memory-consuming than singly linked list.
+More Complex Implementation
+=> Both prev and next must be handled carefully during insertion and deletion, which increases chances of errors (broken links, null pointer issues)
+Slower Operations Due to Overhead
+=> Extra pointer manipulations during insertion/deletion cause slightly more overhead compared to singly linked list.
+Not Cache-Friendly
+=> Like singly linked list, nodes are scattered in memory, so traversals may be slower compared to arrays due to poor locality of reference.
+Common Operation in Doubly Linked List
+Traversal : Display Linked List Elements
+Insertion : At the Beginning, At the End and At the specific position
+Deletion : From the Beginning, From End and From a Specific Position
+
+Introduction to Circular Linked List
+Last Updated : 15 Sep, 2025
+A circular linked list is a data structure where the last node points back to the first node, forming a closed loop.
+
+Structure: All nodes are connected in a circle, enabling continuous traversal without encountering NULL.
+Difference from Regular Linked List: In a regular linked list, the last node points to NULL, whereas in a circular linked list, it points to the first node.
+Uses: Ideal for tasks like scheduling and managing playlists, where smooth and repeated.
+Types of Circular Linked Lists
+We can create a circular linked list from both singly linked lists and doubly linked lists. So, circular linked lists are basically of two types:
+
+1. Circular Singly Linked List
+In Circular Singly Linked List, each node has just one pointer called the "next" pointer. The next pointer of the last node points back to the first node and this results in forming a circle. In this type of Linked list, we can only move through the list in one direction.
+
+25
+2. Circular Doubly Linked List:
+In circular doubly linked list, each node has two pointers prev and next, similar to doubly linked list. The prev pointer points to the previous node and the next points to the next node. Here, in addition to the last node storing the address of the first node, the first node will also store the address of the last node.
+
+26
+Note: Here, we will use the singly linked list to explain the working of circular linked lists.
+Representation of a Circular Singly Linked List
+Let's take a look on the structure of a circular linked list.
+
+27
+Create/Declare a Node of Circular Linked List
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data){
+        this.data = data;
+        this.next = null;
+    }
+}
+In the code above, each node has data and a pointer to the next node. When we create multiple nodes for a circular linked list, we only need to connect the last node back to the first one.
+
+Example of Creating a Circular Linked List
+Here’s an example of creating a circular linked list with three nodes (10, 20, 30, 40, 50):
+
+AS
+Why have we taken a pointer that points to the last node instead of the first node? 
+For the insertion of a node at the beginning, we need to traverse the whole list. Also, for insertion at the end, the whole list has to be traversed. If instead of the start pointer, we take a pointer to the last node, then in both cases there won't be any need to traverse the whole list. So insertion at the beginning or at the end takes constant time, irrespective of the length of the list.
+
+Application of Linked List
+round_robin_scheduling_operating_systems_.webpround_robin_scheduling_operating_systems_.webp
+Advantage of Circular Linked List
+Efficient Traversal
+No Null Pointers / References
+Useful for Repetitive Tasks
+Insertion at Beginning or End is O(1)
+Uniform Traversal
+Efficient Memory Utilization
+Disadvantage of Circular Linked List
+Complex Implementation
+Infinite Loop Risk
+Harder to Debug
+Deletion Complexity
+Memory Overhead (for Doubly Circular LL)
+Not Cache Friendly
+Operations on the Circular Linked List
+Insertion : At the Beginning, At the End and At a Specific Position
+Deletion : Removal from different positions
+
+Stack - Linked List Implementation
+Last Updated : 13 Sep, 2025
+A stack is a linear data structure that follows the Last-In-First-Out (LIFO) principle. It can be implemented using a linked list, where each element of the stack is represented as a node. The head of the linked list acts as the top of the stack.
+
+Declaration of Stack using Linked List
+A stack can be implemented using a linked list where we maintain:
+
+A Node structure/class that contains:
+data → to store the element.
+next → pointer/reference to the next node in the stack.
+A pointer/reference top that always points to the current top node of the stack.
+Initially, top = null to represent an empty stack.
+Try it on GfG Practice
+redirect icon
+
+/* Node structure */
+class Node {
+    public int data;
+    public Node next;
+
+    public Node(int x) {
+        data = x;
+        next = null;
+    }
+}
+
+/* Stack class */
+class MyStack {
+
+    // pointer to top node
+    private Node top;
+
+    public MyStack() {
+        // initially stack is empty
+        top = null;
+    }
+}
+Operations on Stack using Linked List
+Push Operation
+Adds an item to the stack. Unlike array implementation, there is no fixed capacity in linked list. Overflow occurs only when memory is exhausted.
+
+ A new node is created with the given value.
+The new node’s next pointer is set to the current top.
+The top pointer is updated to point to this new node.
+Push-elements-in-the-stack-1
+
+
+
+void push(int x) {
+    Node temp = new Node(x);
+    temp.next = top;
+    top = temp;
+}
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Pop Operation
+Removes the top item from the stack. If the stack is empty, it is said to be an Underflow condition.
+
+Before deleting, we check if the stack is empty (top == NULL).
+If the stack is empty, underflow occurs and deletion is not possible.
+Otherwise, we store the current top node in a temporary pointer.
+Move the top pointer to the next node.
+Delete the temporary node to free memory.
+Pop-elements-from-the-stack
+
+
+
+public int pop() {
+  
+    if (top == null) {
+        System.out.println("Stack Underflow");
+        return -1;
+    }
+
+    Node temp = top;
+    top = top.next;
+    int val = temp.data;
+
+    temp = null; 
+    return val;
+}
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Peek (or Top) Operation
+Returns the value of the top item without removing it from the stack.
+
+If the stack is empty (top == NULL), then no element exists.
+Otherwise, simply return the data of the node pointed by top.
+
+int peek() {
+   
+    if (top == null) {
+        System.out.println("Stack is Empty");
+        return -1;
+    }
+   
+    return top.data;
+}
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+isEmpty Operation
+Checks whether the stack has no elements.
+
+If the top pointer is NULL, it means the stack is empty and the function returns true.
+Otherwise, it returns false.
+
+boolean isEmpty() {
+    return top == null;
+}
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Stack Implementation using Linked List
+
+
+
+// Node structure
+class Node {
+    int data;
+    Node next;
+​
+    Node(int x) {
+        data = x;
+        next = null;
+    }
+}
+​
+// Stack implementation using linked list
+class myStack {
+    Node top;
+​
+    // To Store current size of stack
+    int count;
+​
+    myStack() {
+        // initially stack is empty
+        top = null;
+        count = 0;
+    }
+​
+    // push operation
+    void push(int x) {
+        Node temp = new Node(x);
+        temp.next = top;
+        top = temp;
+​
+        count++;
+    }
+​
+    // pop operation
+    int pop() {
+        if (top == null) {
+            System.out.println("Stack Underflow");
+            return -1;
+        }
+        Node temp = top;
+        top = top.next;
+        int val = temp.data;
+​
+        count--;
+        return val;
+    }
+​
+    // peek operation
+    int peek() {
+        if (top == null) {
+            System.out.println("Stack is Empty");
+            return -1;
+        }
+        return top.data;
+    }
+​
+    // check if stack is empty
+    boolean isEmpty() {
+        return top == null;
+    }
+​
+    // size of stack
+    int size() {
+        return count;
+    }
+​
+    public static void main(String[] args) {
+        myStack st = new myStack();
+​
+        // pushing elements
+        st.push(1);
+        st.push(2);
+        st.push(3);
+        st.push(4);
+​
+        // popping one element
+        System.out.println("Popped: " + st.pop());
+​
+        // checking top element
+        System.out.println("Top element: " + st.peek());
+​
+        // checking if stack is empty
+        System.out.println("Is stack empty: " + (st.isEmpty() ? "Yes" : "No"));
+​
+        // checking current size
+        System.out.println("Current size: " + st.size());
+    }
+}
+
+Output
+Popped: 4
+Top element: 3
+Is stack empty: No
+Current size: 3
+
+Introduction to Stack Data Structure
+Last Updated : 10 Sep, 2025
+Stack is a linear data structure that follows LIFO (Last In First Out) Principle, the last element inserted is the first to be popped out. It means both insertion and deletion operations happen at one end only.
+
+push232
+LIFO(Last In First Out) Principle
+The LIFO principle means that the last element added to a stack is the first one to be removed.
+
+New elements are always pushed on top.
+Removal (pop) also happens only from the top.
+This ensures a strict order: last in → first out.
+Real-world examples of LIFO:
+
+Stack of plates – The last plate placed on top is the first one you pick up.
+Shuttlecock box – The last shuttlecock inserted is the first one taken out, since both operations happen from the same end.
+Basic Terminologies of Stack
+Top: The position of the most recently inserted element. Insertions (push) and deletions (pop) are always performed at the top.
+Size: Refers to the current number of elements present in the stack.
+Types of Stack:
+Fixed Size Stack
+A fixed size stack has a predefined capacity.
+Once it becomes full, no more elements can be added (this causes overflow).
+If the stack is empty and we try to remove an element, it causes underflow.
+Typically implemented using a static array.
+Example: Declaring a stack of size 10 using an array.
+
+Dynamic Size Stack
+A dynamic size stack can grow and shrink automatically as needed.
+If the stack is full, its capacity expands to allow more elements.
+As elements are removed, memory usage can shrink as well.
+Can be implemented using:
+-> Linked List → grows/shrinks naturally.
+-> Dynamic Array (like vector in C++ or ArrayList in Java) → resizes automatically.
+Example: Stack implementation using linked list or resizable array.
+
+Note: We generally use dynamic stacks in practice, as they can grow or shrink as needed without overflow issues.
+
+Common Operations on Stack:
+In order to make manipulations in a stack, there are certain operations provided to us.
+
+push() to insert an element into the stack.
+pop() to remove an element from the stack.
+top() Returns the top element of the stack.
+isEmpty() returns true if stack is empty else false.
+size() returns the size of the stack.
+Refer to this article to know more about Operations on Stack.
+
+Implementation of Stack
+Stack can be implemented in Different Ways :-
+
+Implementation of Stack using Array
+Implementation of Stack using Linked List
+Implementation of Stack using Deque
+
+Introduction to Tree Data Structure
+Last Updated : 09 Sep, 2025
+Tree data structure is a hierarchical structure that is used to represent and organize data in the form of parent child relationship. The following are some real world situations which are naturally a tree.
+
+Folder structure in an operating system.
+Tag structure in an HTML (root tag the as html tag) or XML document.
+The topmost node of the tree is called the root, and the nodes below it are called the child nodes. Each node can have multiple child nodes, and these child nodes can also have their own child nodes, forming a recursive structure.
+
+Introduction-to-tree-
+
+Basic Terminologies In Tree Data Structure:
+Parent Node: The node which is an immediate predecessor of a node is called the parent node of that node. {B} is the parent node of {D, E}.
+Child Node: The node which is the immediate successor of a node is called the child node of that node. Examples: {D, E} are the child nodes of {B}.
+Root Node: The topmost node of a tree or the node which does not have any parent node is called the root node. {A} is the root node of the tree. A non-empty tree must contain exactly one root node and exactly one path from the root to all other nodes of the tree.
+Leaf Node or External Node: The nodes which do not have any child nodes are called leaf nodes. {I, J, K, F, G, H} are the leaf nodes of the tree.
+Ancestor of a Node: Any predecessor nodes on the path of the root to that node are called Ancestors of that node. {A,B} are the ancestor nodes of the node {E}
+Descendant: A node x is a descendant of another node y if and only if y is an ancestor of x.
+Sibling: Children of the same parent node are called siblings. {D,E} are called siblings.
+Level of a node: The count of edges on the path from the root node to that node. The root node has level 0.
+Internal node: A node with at least one child is called Internal Node.
+Neighbour of a Node: Parent or child nodes of that node are called neighbors of that node.
+Subtree: Any node of the tree along with its descendant.
+treeTerminologies
+Basic Terminologies In Tree
+Why Tree is considered a non-linear data structure?
+The data in a tree are not stored in a sequential manner i.e., they are not stored linearly. Instead, they are arranged on multiple levels or we can say it is a hierarchical structure. For this reason, the tree is considered to be a non-linear data structure.
+
+We strongly recommend to study a Binary Tree first as a Binary Tree has structure and code implementation compared to a general tree.
+
+Representation of Tree Data Structure:
+A tree consists of a root node, and zero or more subtrees T1, T2, ... , Tk such that there is an edge from the root node of the tree to the root node of each subtree. Subtree of a node X consists of all the nodes which have node X as the ancestor node.
+
+Representation-of-Tree-Data-Structure
+Representation of Tree Data Structure
+Representation of a Node in Tree Data Structure:
+A tree can be represented using a collection of nodes. Each of the nodes can be represented with the help of class or structs. Below is the representation of Node in different languages:
+
+
+public static class Node {
+    int data;
+    Node first_child;
+    Node second_child;
+    Node third_child;
+      .
+    .
+    .
+    Node nth_child;
+}
+Importance for Tree Data Structure:
+One reason to use trees might be because you want to store information that naturally forms a hierarchy. For example, the file system on a computer: The DOM model of an HTML page is also tree where we have html tag as root, head and body its children and these tags, then have their own children.Please refer Applications, Advantages and Disadvantages of Tree for details.
+
+Types of Tree data structures:
+Tree data structure can be classified into three types based upon the number of children each node of the tree can have. The types are:
+
+Binary tree: In a binary tree, each node can have a maximum of two children linked to it. Some common types of binary trees include full binary trees, complete binary trees, balanced binary trees, and degenerate or pathological binary trees. Examples of Binary Tree are Binary Search Tree and Binary Heap.
+Ternary Tree: A Ternary Tree is a tree data structure in which each node has at most three child nodes, usually distinguished as “left”, “mid” and “right”.
+N-ary Tree or Generic Tree: Generic trees are a collection of nodes where each node is a data structure that consists of records and a list of references to its children(duplicate references are not allowed). Unlike the linked list, each node stores the address of multiple nodes.
+Also Check
+Please refer Types of Trees in Data Structures for details.
+
+Basic Operations Of Tree Data Structure:
+Create – create a tree in the data structure.
+Insert − Inserts data in a tree.
+Search − Searches specific data in a tree to check whether it is present or not.
+Traversal:
+Depth-First-Search Traversal
+Breadth-First-Search Traversal
+Implementation of Tree Data Structure:
+
+
+
+
+// java code for above approach
+import java.io.*;
+import java.util.*;
+​
+class GFG {
+​
+    // Function to print the parent of each node
+    public static void
+    printParents(int node, Vector<Vector<Integer> > adj,
+                 int parent)
+    {
+​
+        // current node is Root, thus, has no parent
+        if (parent == 0)
+            System.out.println(node + "->Root");
+        else
+            System.out.println(node + "->" + parent);
+​
+        // Using DFS
+        for (int i = 0; i < adj.get(node).size(); i++)
+            if (adj.get(node).get(i) != parent)
+                printParents(adj.get(node).get(i), adj,
+                             node);
+    }
+​
+    // Function to print the children of each node
+    public static void
+    printChildren(int Root, Vector<Vector<Integer> > adj)
+    {
+​
+        // Queue for the BFS
+        Queue<Integer> q = new LinkedList<>();
+​
+        // pushing the root
+        q.add(Root);
+​
+        // visit array to keep track of nodes that have been
+        // visited
+        int vis[] = new int[adj.size()];
+​
+        Arrays.fill(vis, 0);
+​
+        // BFS
+        while (q.size() != 0) {
+            int node = q.peek();
+            q.remove();
+            vis[node] = 1;
+            System.out.print(node + "-> ");
+​
+            for (int i = 0; i < adj.get(node).size(); i++) {
+                if (vis[adj.get(node).get(i)] == 0) {
+                    System.out.print(adj.get(node).get(i)
+                                     + " ");
+                    q.add(adj.get(node).get(i));
+                }
+            }
+            System.out.println();
+        }
+    }
+​
+    // Function to print the leaf nodes
+    public static void
+    printLeafNodes(int Root, Vector<Vector<Integer> > adj)
+    {
+​
+        // Leaf nodes have only one edge and are not the
+        // root
+        for (int i = 1; i < adj.size(); i++)
+            if (adj.get(i).size() == 1 && i != Root)
+                System.out.print(i + " ");
+​
+        System.out.println();
+    }
+​
+    // Function to print the degrees of each node
+    public static void
+    printDegrees(int Root, Vector<Vector<Integer> > adj)
+    {
+        for (int i = 1; i < adj.size(); i++) {
+            System.out.print(i + ": ");
+​
+            // Root has no parent, thus, its degree is
+            // equal to the edges it is connected to
+            if (i == Root)
+                System.out.println(adj.get(i).size());
+            else
+                System.out.println(adj.get(i).size() - 1);
+        }
+    }
+​
+    // Driver code
+    public static void main(String[] args)
+    {
+​
+        // Number of nodes
+        int N = 7, Root = 1;
+​
+        // Adjacency list to store the tree
+        Vector<Vector<Integer> > adj
+            = new Vector<Vector<Integer> >();
+        for (int i = 0; i < N + 1; i++) {
+            adj.add(new Vector<Integer>());
+        }
+​
+        // Creating the tree
+        adj.get(1).add(2);
+        adj.get(2).add(1);
+​
+        adj.get(1).add(3);
+        adj.get(3).add(1);
+​
+        adj.get(1).add(4);
+        adj.get(4).add(1);
+​
+        adj.get(2).add(5);
+        adj.get(5).add(2);
+​
+        adj.get(2).add(6);
+        adj.get(6).add(2);
+​
+        adj.get(4).add(7);
+        adj.get(7).add(4);
+​
+        // Printing the parents of each node
+        System.out.println("The parents of each node are:");
+        printParents(Root, adj, 0);
+​
+        // Printing the children of each node
+        System.out.println(
+            "The children of each node are:");
+        printChildren(Root, adj);
+​
+        // Printing the leaf nodes in the tree
+        System.out.println(
+            "The leaf nodes of the tree are:");
+        printLeafNodes(Root, adj);
+​
+        // Printing the degrees of each node
+        System.out.println("The degrees of each node are:");
+        printDegrees(Root, adj);
+    }
+}
+​
+// This code is contributed by rj13to.
+
+Output
+The parents of each node are:
+1->Root
+2->1
+5->2
+6->2
+3->1
+4->1
+7->4
+The children of each node are:
+1-> 2 3 4 
+2-> 5 6 
+3-> 
+4-> 7 
+5-> 
+6-> 
+7-> 
+The leaf nodes of the tree are:
+3 5 6 7 
+The degrees o...
+Properties of Tree Data Structure:
+Number of edges: An edge can be defined as the connection between two nodes. If a tree has N nodes then it will have (N-1) edges. There is only one path from each node to any other node of the tree.
+
+Depth of a node: The depth of a node is defined as the length of the path from the root to that node. Each edge adds 1 unit of length to the path. So, it can also be defined as the number of edges in the path from the root of the tree to the node.
+
+Height of a node: The height of a node can be defined as the length of the longest path from the node to a leaf node of the tree.
+Height of the Tree: The height of a tree is the length of the longest path from the root of the tree to a leaf node of the tree.
+Degree of a Node: The total count of subtrees attached to that node is called the degree of the node. The degree of a leaf node must be 0. The degree of a tree is the maximum degree of a node among all the nodes in the tree.
+
+Breadth First Search or BFS for a Graph
+Last Updated : 28 Aug, 2025
+Given a undirected graph represented by an adjacency list adj, where each adj[i] represents the list of vertices connected to vertex i. Perform a Breadth First Search (BFS) traversal starting from vertex 0, visiting vertices from left to right according to the adjacency list, and return a list containing the BFS traversal of the graph.
+
+Examples:
+
+Input: adj[][] = [[1,2], [0,2,3], [0,1,4], [1,4], [2,3]]
+
+Breadth-First-Search-or-BFS-for-a-Graph
+ 
+
+Output: [0, 1, 2, 3, 4]
+Explanation: Starting from 0, the BFS traversal will follow these steps: 
+Visit 0 → Output: [0] 
+Visit 1 (first neighbor of 0) → Output: [0, 1]
+Visit 2 (next neighbor of 0) → Output: [0, 1, 2]
+Visit 3 (next neighbor of 1) → Output: [0, 1, 2, 3]
+Visit 4 (neighbor of 2) → Final Output: [0, 1, 2, 3, 4]
+
+Input: adj[][] = [[1, 2], [0, 2], [0, 1, 3, 4], [2], [2]]
+Output: [0, 1, 2, 3, 4]
+Explanation: Starting from 0, the BFS traversal proceeds as follows: 
+Visit 0 → Output: [0]
+Visit 1 (the first neighbor of 0) → Output: [0, 1]
+Visit 2 (the next neighbor of 0) → Output: [0, 1, 2]
+Visit 3 (the first neighbor of 2 that hasn't been visited yet) → Output: [0, 1, 2, 3]
+Visit 4 (the next neighbor of 2) → Final Output: [0, 1, 2, 3, 4]
+
+Try it on GfG Practice
+redirect icon
+Table of Content
+
+What is Breadth First Search?
+BFS from a Given Source
+BFS of the Disconnected Graph
+Complexity Analysis of Breadth-First Search (BFS) Algorithm
+Applications of BFS in Graphs
+What is Breadth First Search?
+Breadth First Search (BFS)  is a fundamental  graph traversal algorithm. It begins with a node, then first traverses all its adjacent nodes. Once all adjacent are visited, then their adjacent are traversed. 
+
+BFS is different from DFS in a way that closest vertices are visited before others. We mainly traverse vertices level by level. 
+Popular graph algorithms like Dijkstra's shortest path, Kahn's Algorithm, and Prim's algorithm are based on BFS.  
+BFS itself can be used to detect cycle in a directed and undirected graph, find shortest path in an unweighted graph and many more problems.
+BFS from a Given Source
+The algorithm starts from a given source and explores all reachable vertices from the given source. It is similar to the  Breadth-First Traversal of a tree. Like tree, we begin with the given source (in tree, we begin with root) and traverse vertices level by level using a queue data structure.  The only catch here is that, unlike  trees,  graphs  may contain cycles, so we may come to the same node again. To avoid processing a node more than once, we use a Boolean visited array.
+
+BFS-on-graph-01.webpBFS-on-graph-01.webp
+
+
+Follow the below given approach:
+
+Initialization: Enqueue the given source vertex into a queue and mark it as visited.
+Exploration: While the queue is not empty:
+Dequeue a node from the queue and visit it (e.g., print its value).
+For each unvisited neighbor of the dequeued node:
+Enqueue the neighbor into the queue.
+Mark the neighbor as visited.
+Termination: Repeat step 2 until the queue is empty.
+This algorithm ensures that all nodes in the graph are visited in a breadth-first manner, starting from the starting node.
+
+
+
+
+// Function to find BFS of Graph from given source s
+import java.util.*;
+​
+class GfG {
+​
+    // BFS from given source s
+    static ArrayList<Integer> bfs(
+        ArrayList<ArrayList<Integer>> adj) {
+        int V = adj.size();
+        
+        int s = 0; // source node
+        // create an array to store the traversal
+        ArrayList<Integer> res = new ArrayList<>();
+        
+        // Create a queue for BFS
+        Queue<Integer> q = new LinkedList<>();
+        
+        // Initially mark all the vertices as not visited
+        boolean[] visited = new boolean[V];
+        
+        // Mark source node as visited and enqueue it
+        visited[s] = true;
+        q.add(s);
+        
+        // Iterate over the queue
+        while (!q.isEmpty()) {
+            
+            // Dequeue a vertex from queue and store it
+            int curr = q.poll();
+            res.add(curr);
+            
+            // Get all adjacent vertices of the dequeued 
+            // vertex curr If an adjacent has not been 
+            // visited, mark it visited and enqueue it
+            for (int x : adj.get(curr)) {
+                if (!visited[x]) {
+                    visited[x] = true;
+                    q.add(x);
+                }
+            }
+        }
+        return res;
+    }
+    
+    public static void main(String[] args) {
+        
+        // create the adjacency list
+        // { {2, 3, 1}, {0}, {0, 4}, {0}, {2} }
+       
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        adj.add(new ArrayList<>(Arrays.asList(1, 2)));
+        adj.add(new ArrayList<>(Arrays.asList(0, 2, 3)));       
+        adj.add(new ArrayList<>(Arrays.asList(0, 4)));       
+        adj.add(new ArrayList<>(Arrays.asList(1,4)));          
+        adj.add(new ArrayList<>(Arrays.asList(2,3)));          
+        
+        
+        ArrayList<Integer> ans = bfs(adj);
+        for (int i : ans) {
+            System.out.print(i + " ");
+        }
+    }
+}
+
+Output
+0 1 2 3 4 
+BFS of the Disconnected Graph
+The above implementation takes a source as an input and prints only those vertices that are reachable from the source and  would not print all vertices in case of disconnected graph. Let us see the algorithm that prints all vertices without any source and  the graph maybe disconnected. 
+
+The algorithm is simple, instead of calling BFS for a single vertex, we call the above implemented BFS for all not yet visited vertices one by one. 
+
+
+
+
+// BFS from given source s
+import java.util.*;
+​
+class GfG {
+​
+    // BFS from given source s
+    static ArrayList<Integer> 
+        bfsOfGraph(ArrayList<ArrayList<Integer>> adj, 
+                int s, boolean[] visited, ArrayList<Integer> res) {
+​
+        // Create a queue for BFS
+        Queue<Integer> q = new LinkedList<>();
+​
+        // Mark source node as visited and enqueue it
+        visited[s] = true;
+        q.add(s);
+​
+        // Iterate over the queue
+        while (!q.isEmpty()) {
+​
+            // Dequeue a vertex and store it
+            int curr = q.poll();
+            res.add(curr);
+​
+            // Get all adjacent vertices of the dequeued 
+            // vertex curr If an adjacent has not been 
+            // visited, mark it visited and enqueue it
+            for (int x : adj.get(curr)) {
+                if (!visited[x]) {
+                    visited[x] = true;
+                    q.add(x);
+                }
+            }
+        }
+        return res;
+    }
+​
+    // Perform BFS for the entire graph which maybe
+    // disconnected
+    static ArrayList<Integer> bfsDisconnected(
+                ArrayList<ArrayList<Integer>> adj) {
+        int V = adj.size();
+​
+        // create an array to store the traversal
+        ArrayList<Integer> res = new ArrayList<>();
+​
+        // Initially mark all the vertices as not visited
+        boolean[] visited = new boolean[V];
+​
+        // perform BFS for each node
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                bfsOfGraph(adj, i, visited, res);
+            }
+        }
+        return res;
+    }
+​
+    public static void main(String[] args) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        adj.add(new ArrayList<>(Arrays.asList(1, 2)));
+        adj.add(new ArrayList<>(Arrays.asList(0))); 
+        adj.add(new ArrayList<>(Arrays.asList(0)));   
+        adj.add(new ArrayList<>(Arrays.asList(4)));
+        adj.add(new ArrayList<>(Arrays.asList(3, 5)));
+        adj.add(new ArrayList<>(Arrays.asList(4)));  
+​
+        int src = 0;
+        ArrayList<Integer> ans = bfsDisconnected(adj);
+        for (int i : ans) {
+            System.out.print(i + " ");
+        }
+    }
+}
+
+Output
+0 1 2 3 4 5 
+Complexity Analysis of Breadth-First Search (BFS) Algorithm
+Time Complexity: O(V + E), BFS explores all the vertices and edges in the graph. In the worst case, it visits every vertex and edge once. Therefore, the time complexity of BFS is O(V + E), where V and E are the number of vertices and edges in the given graph. 
+
+Auxiliary Space: O(V), BFS uses a queue to keep track of the vertices that need to be visited. In the worst case, the queue can contain all the vertices in the graph. Therefore, the space complexity of BFS is O(V).
+
+Applications of BFS in Graphs
+BFS has various applications in graph theory and computer science, including:
+
+Shortest Path Finding: BFS can be used to find the shortest path between two nodes in an unweighted graph. By keeping track of the parent of each node during the traversal, the shortest path can be reconstructed.
+Cycle Detection: BFS can be used to detect cycles in a graph. If a node is visited twice during the traversal, it indicates the presence of a cycle.
+Connected Components: BFS can be used to identify connected components in a graph. Each connected component is a set of nodes that can be reached from each other.
+Topological Sorting: BFS can be used to perform topological sorting on a directed acyclic graph (DAG). Topological sorting arranges the nodes in a linear order such that for any edge (u, v), u appears before v in the order.
+Level Order Traversal of Binary Trees: BFS can be used to perform a level order traversal of a binary tree. This traversal visits all nodes at the same level before moving to the next level.
+Network Routing: BFS can be used to find the shortest path between two nodes in a network, making it useful for routing data packets in network protocols.
+
+Depth First Search or DFS for a Graph
+Last Updated : 02 Sep, 2025
+In Depth First Search (or DFS) for a graph, we traverse all adjacent vertices one by one. When we traverse an adjacent vertex, we completely finish the traversal of all vertices reachable through that adjacent vertex. This is similar to a depth first tree traversal, where we first completely traverse the left subtree and then move to the right subtree. The key difference is that, unlike trees, graphs may contain cycles (a node may be visited more than once). To avoid processing a node multiple times, we use a boolean visited array.
+
+Example:
+
+Note : There can be multiple DFS traversals of a graph according to the order in which we pick adjacent vertices. Here we pick vertices as per the insertion order.
+
+Input: adj =  [[1, 2], [0, 2], [0, 1, 3, 4], [2], [2]]
+
+Input_undirected_Graph
+ 
+Output: [0 1 2 3 4]
+Explanation:  The source vertex s is 0. We visit it first, then we visit an adjacent. 
+Start at 0: Mark as visited. Output: 0
+Move to 1: Mark as visited. Output: 1 
+Move to 2: Mark as visited. Output: 2 
+Move to 3: Mark as visited. Output: 3 (backtrack to 2)
+Move to 4: Mark as visited. Output: 4 (backtrack to 2, then backtrack to 1, then to 0)
+
+Not that there can be more than one DFS Traversals of a Graph. For example, after 1, we may pick adjacent 2 instead of 0 and get a different DFS. Here we pick in the insertion order.
+
+Input: [[2,3,1], [0], [0,4], [0], [2]]
+
+Input_undirected_Graph2
+ 
+Output: [0 2 4 3 1]
+Explanation: DFS Steps:
+
+Start at 0: Mark as visited. Output: 0
+Move to 2: Mark as visited. Output: 2
+Move to 4: Mark as visited. Output: 4 (backtrack to 2, then backtrack to 0)
+Move to 3: Mark as visited. Output: 3 (backtrack to 0)
+Move to 1: Mark as visited. Output: 1 (backtrack to 0)
+
+Try it on GfG Practice
+redirect icon
+Table of Content
+
+DFS from a Given Source of Undirected Graph:
+DFS for Complete Traversal of Disconnected Undirected Graph
+DFS from a Given Source of Undirected Graph:
+The algorithm starts from a given source and explores all reachable vertices from the given source. It is similar to Preorder Tree Traversal where we visit the root, then recur for its children. In a graph, there might be loops. So we use an extra visited array to make sure that we do not process a vertex again.
+
+Let us understand the working of Depth First Search with the help of the following Illustration: for the source as 0.
+
+DFS-for-a-Graph-1.webpDFS-for-a-Graph-1.webp
+
+
+
+
+
+import java.util.*;
+​
+public class DFSGraph {
+    // Recursive function for DFS traversal
+    private static void
+    dfsRec(ArrayList<ArrayList<Integer> > adj,
+           boolean[] visited, int s, ArrayList<Integer> res)
+    {
+        visited[s] = true;
+        res.add(s);
+​
+        // Recursively visit all adjacent vertices that are
+        // not visited yet
+        for (int i : adj.get(s)) {
+            if (!visited[i]) {
+                dfsRec(adj, visited, i, res);
+            }
+        }
+    }
+​
+    // Main DFS function that initializes the visited array
+    // and calls dfsRec
+    public static ArrayList<Integer>
+    DFS(ArrayList<ArrayList<Integer> > adj)
+    {
+        boolean[] visited = new boolean[adj.size()];
+        ArrayList<Integer> res = new ArrayList<>();
+        dfsRec(adj, visited, 0, res);
+        return res;
+    }
+​
+    // To add an edge in an undirected graph
+    public static void
+    addEdge(ArrayList<ArrayList<Integer> > adj, int s,
+            int t)
+    {
+        adj.get(s).add(t);
+        adj.get(t).add(s);
+    }
+​
+    public static void main(String[] args)
+    {
+        int V = 5;
+        ArrayList<ArrayList<Integer> > adj
+            = new ArrayList<>();
+​
+        // Initialize adjacency list
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+​
+        // Add edges
+        int[][] edges= { { 1, 2 },{ 1, 0 },{ 2, 0 },{ 2, 3 },{ 2, 4 } }; 
+        for (int[] e : edges)
+        {
+            addEdge(adj, e[0], e[1]);
+        }
+​
+        // Perform DFS starting from vertex 0
+        ArrayList<Integer> res = DFS(adj);
+​
+        for (int i = 0; i < res.size(); i++) {
+            System.out.print(res.get(i) + " ");
+        }
+    }
+}
+
+Output
+0 1 2 3 4 
+Time complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+Auxiliary Space: O(V + E), since an extra visited array of size V is required, And stack size for recursive calls to dfsRec function.
+
+Please refer Complexity Analysis of Depth First Search for details.
+
+DFS for Complete Traversal of Disconnected Undirected Graph
+The above implementation takes a source as an input and prints only those vertices that are reachable from the source and would not print all vertices in case of disconnected graph. Let us now talk about the algorithm that prints all vertices without any source and the graph maybe disconnected. 
+
+The idea is simple, instead of calling DFS for a single vertex, we call the above implemented DFS for all all non-visited vertices one by one.
+
+
+
+
+import java.util.*;
+​
+public class GfG {
+    // Function to add an edge to the adjacency list
+    public static void
+    addEdge(ArrayList<ArrayList<Integer> > adj, int s,
+            int t)
+    {
+        adj.get(s).add(t);
+        adj.get(t).add(s);
+    }
+​
+    // Recursive function for DFS traversal
+    private static void
+    dfsRec(ArrayList<ArrayList<Integer> > adj,
+           boolean[] visited, int s, ArrayList<Integer> res)
+    {
+        visited[s] = true;
+        res.add(s);
+​
+        // Recursively visit all adjacent vertices that are
+        // not visited yet
+        for (int i : adj.get(s)) {
+            if (!visited[i]) {
+                dfsRec(adj, visited, i, res);
+            }
+        }
+    }
+​
+    // Main DFS function to perform DFS for the entire graph
+    public static ArrayList<Integer>
+    DFS(ArrayList<ArrayList<Integer> > adj)
+    {
+        boolean[] visited = new boolean[adj.size()];
+        ArrayList<Integer> res = new ArrayList<>();
+​
+        // Loop through all vertices to handle disconnected
+        // graphs
+        for (int i = 0; i < adj.size(); i++) {
+            if (!visited[i]) {
+                dfsRec(adj, visited, i, res);
+            }
+        }
+​
+        return res;
+    }
+​
+    public static void main(String[] args)
+    {
+        int V = 6;
+        // Create an adjacency list for the graph
+        ArrayList<ArrayList<Integer> > adj
+            = new ArrayList<>();
+​
+        // Initialize adjacency list
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+​
+        // Define the edges of the graph
+        int[][] edges
+            = { { 1, 2 }, { 2, 0 }, { 0, 3 }, { 4, 5 } };
+​
+        // Populate the adjacency list with edges
+        for (int[] e : edges) {
+            addEdge(adj, e[0], e[1]);
+        }
+​
+        // Perform DFS
+        ArrayList<Integer> res = DFS(adj);
+​
+        // Print the DFS traversal result
+        for (int num : res) {
+            System.out.print(num + " ");
+        }
+    }
+}
+
+Output
+0 2 1 3 4 5 
+Time complexity: O(V + E). Note that the time complexity is same here because we visit every vertex at most once and every edge is traversed at most once (in directed) and twice in undirected.
+Auxiliary Space: O(V + E), since an extra visited array of size V is required, And stack size for recursive calls to dfsRec function.
+
+Difference between BFS and DFS
+Last Updated : 11 Jul, 2025
+Breadth-First Search (BFS) and Depth-First Search (DFS) are two fundamental algorithms used for traversing or searching graphs and trees. This article covers the basic difference between Breadth-First Search and Depth-First Search.
+
+bfs-vs-dfs-(1)
+Difference between BFS and DFS
+Parameters	BFS	DFS
+Stands for	BFS stands for Breadth First Search.	DFS stands for Depth First Search.
+Data Structure	BFS(Breadth First Search) uses Queue data structure for finding the shortest path.	DFS(Depth First Search) uses Stack data structure.
+Definition	BFS is a traversal approach in which we first walk through all nodes on the same level before moving on to the next level.  	DFS is also a traversal approach in which the traverse begins at the root node and proceeds through the nodes as far as possible until we reach the node with no unvisited nearby nodes.
+Conceptual Difference	BFS builds the tree level by level.	DFS builds the tree sub-tree by sub-tree.
+Approach used	BFS It works on the concept of FIFO (First In First Out). 	DFS It works on the concept of LIFO (Last In First Out).
+Suitable for	BFS is more suitable for searching vertices closer to the given source.	DFS is more suitable when there are solutions away from source.
+Applications	BFS is used in various applications such as bipartite graphs, shortest paths, etc. If weight of every edge is same, then BFS gives shortest path from source to every other vertex.	DFS is used in various applications such as acyclic graphs and finding strongly connected components etc. There are many applications where both BFS and DFS can be used like Topological Sorting, Cycle Detection, etc.
+Please also see BFS vs DFS for Binary Tree for the differences for a Binary Tree Traversal. 
+
+
+Arrays.binarySearch() in Java with Examples | Set 1
+Last Updated : 23 Jul, 2025
+In Java, the Arrays.binarySearch() method searches the specified array of the given data type for the specified value using the binary search algorithm. The array must be sorted by the Arrays.sort() method before making this call. If it is not sorted, the results are undefined.
+
+Example:
+
+Below is a simple example that demonstrates how the binarySearch() method efficiently locates an element in a sorted array.
+
+
+
+
+import java.util.Arrays;
+​
+public class ArrayBinarySearch {
+    public static void main(String[] args) {
+        
+        // Example integer array
+        int[] arr = {10, 20, 30, 40};
+​
+        // Sort the array before searching
+        Arrays.sort(arr);
+​
+        // Perform binary search for the specified values
+        System.out.println("Searching for 20 in arr: " 
+                           + Arrays.binarySearch(arr, 20)); 
+        System.out.println("Searching for 40 in arr: " 
+                           + Arrays.binarySearch(arr, 40)); 
+    }
+}
+
+Output
+Searching for 20 in arr: 1
+Searching for 40 in arr: 3
+Explanation: This example searches for the values 20 and 40 in the sorted array and prints their respective indices.
+
+Syntax of Arrays.binarySearch() in Java
+public static int binarySearch(data_type array, data_type key)
+
+Note: Here datatype can be any of the primitive data types such as byte, char, double, int, float, short, long, and even object as well.
+
+Parameters: 
+
+array: The array to be searched.
+key: The value to be searched for.
+Return Type:
+
+It returns the index of the key, if the index is found.
+If the index not found, it returns - (insertion point) - 1, where the insertion point is where the key would fit in a sorted array.
+Important Points:
+
+Array must be sorted; otherwise, results are undefined.
+If duplicates exist, it is uncertain which index will be returned.
+Java Program to Use Arrays.binarySearch() on Different Data Types
+The below example demonstrates the use of Arrays.binarySearch() to locate elements in sorted arrays of various primitive data types, where the positive results indicates the index of the element found and the negative results indicate the insertion point for elements not present.

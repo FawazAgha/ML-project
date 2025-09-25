@@ -1,0 +1,84 @@
+Linked Lists
+
+Reference
+
+A reference is a variable that stores the address of an object A reference is also called a pointer
+class Student {
+String name; String ID; float gpa;
+
+student
+
+References as Links
+
+References can be used to create links between objects
+class Student {
+String name; String ID; float gpa; Student next;
+
+ Student object contains a reference to another Student object
+
+ How to access these objects?
+
+A Linked List is a sequence of elements, with each element connected to the next element by a link
+
+Need a special reference that points to the first node, called the head
+
+It might be useful to also have a reference to the last node, tail
+
+head	Tail
+
+What if we have access to the tail but not the head?
+
+  Each node in the linked list is an instance of class, e.g., Node<T>
+
+  We need to keep track of the front node, using head
+
+  If (head == null), then the list is empty
+
+Let's add a new entry, 13, to the front of the linked list
+
+Create a new node...
+
+Create a new node...
+Place the data in the new node's data field.
+
+Create a new node...
+Place the data in the new node's data field.... Connect the new node to the front of the list.
+
+Create a new node...
+Place the data in the new node's data field.... Connect the new node to the front of the list. Make the head refer to the new node
+
+Linked List - Constructor Implementation
+
+...
+
+SomeType item1 = new SomeType(100); SomeType item2 = new SomeType(200); SomeType item3 = new SomeType(300);
+
+Node<SomeType> head = null;
+head = new Node<>(item1, head);	// head -> 100 -> null
+head = new Node<>(item2, head);	// head -> 200 -> 100 -> null
+head = new Node<>(item3, head); // head -> 300 -> 200 -> 100 -> null
+
+ If in the front:
+Otherwise, identify previous to refer to the node which is just
+before the new node's position.
+
+previous
+
+ Adding at the front of a list:
+
+ Adding at the front of this new small list:
+ head' = new Node<>(newEntry, head'); // head' = whatever previous is pointing to
+
+ Locate 'previous' and call
+previous.addNodeAfter(13  )
+
+ head = ?
+ head = head.next;
+
+Removing a Node (anywhere)
+
+ Locate 'previous' and call previous. removeNodeAfter( )  previous = node before the one that needs to be removed
+
+public void removeNodeAfter( )	{ next = next.next;
+
+Precondition: This node must not be the tail node of the list Node.java

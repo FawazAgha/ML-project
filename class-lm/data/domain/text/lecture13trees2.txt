@@ -1,0 +1,240 @@
+CS310
+Data Structures
+K. Raven Russell
+krusselc@gmu.edu
+George Mason University
+
+Today
+– Last Lectures
+– Tree Introduction
+– Recursion Review
+– Today
+– Tree Traversals (using trees and recursion)
+
+Common Tree Operations
+– Searching for an item
+– Adding items
+– Deleting items (synonymous with removing)
+– Balancing
+– Iterating = mention things one by one
+– all the items (in some order)
+– a section of a tree
+
+Tree Traversals
+Weiss 18.4 describes iterators, Today we describe operations
+– Two common types
+– breadth first - process things closest to the root first
+– depth first - follow a path all the way to its end and backtrack
+
+Whiteboard Demo
+
+Tree Traversals: Breadth First
+– Breadth first
+– process things closest to the root first
+– in trees, sometimes called “level-order”
+– Stored in an array?
+– walk the array!
+– Stored in a linked structure?
+– use a queue!
+
+Tree Traversals: Depth First
+– Three common depth first
+– Pre-, Post-, and In-Order
+– Pre-order
+– self, left child, right child
+– Post-order
+– left child, right child, self
+– In-order
+– left child, self, right child
+
+Tree Traversals: Depth First
+– Pre-order
+– process order: self, left child,
+right child
+– Example: 55, 42, 27, 6, 37, 50,
+67, 59, 87, 78
+– Post-order
+– process order: left child, right
+child, self
+– Example: 6, 37, 27,
+50, 42, 59, 78, 87,
+67, 55
+– In-order
+– process order: left child, self,
+right child
+– Example: 6, 27, 37, 42, 50,
+55, 59, 67, 78, 87
+– search tree? sorted items!
+
+Recursive Implementations
+class Node<T> {
+T data;
+Node<T> left, right;
+//use call stack instead
+//of local stack!
+inOrder(Node t) {
+inOrder(t.left);
+inOrder(t.right);
+preOrder(Node t) {
+preOrder(t.left);
+preOrder(t.right);
+postOrder(Node t) {
+postOrder(t.left);
+postOrder(t.right);
+
+Whiteboard Tracing
+(see next slides)
+
+Tracing Pre-order Walk w/ Code
+preOrder(Node t) {
+preOrder(t.left);
+preOrder(t.right);
+
+Tracing Post-order Walk w/ Code
+postOrder(Node t) {
+postOrder(t.left);
+postOrder(t.right);
+
+Tracing In-order Walk w/ Code
+inOrder(Node t) {
+inOrder(t.left);
+inOrder(t.right);
+
+Questions?
+
+Which Traversal Should I Use?
+– If you want to push information down the tree…
+– Use pre-order
+– Idea: calculate something “here” and “give it” to the children.
+– If you want to push information up the tree…
+– Use post-order
+– Idea: calculate something “below” and “give it” to me.
+– If you want to push information from the left to the right in the
+tree…
+– Use in-order
+– Idea: calculate something based on information “to the left”, pass it
+to the parent, then they can pass it “to the right”
+
+class Node<T> {
+T data;
+int depth;
+Node<T> left, right;
+setDepth(Node t, int i) {
+setDepth(root, 0)
+
+setDepth(□,1)
+
+setDepth(□,2)
+
+setDepth(☒,3)
+
+setDepth(☒,3):1
+
+setDepth(☒,3):2
+
+setDepth(☒,3)
+
+setDepth(☒,3):1
+
+setDepth(☒,3):2
+
+setDepth(□,2)
+
+...
+
+Example: Pushing Info Up
+class Node<T> {
+T data;
+int height;
+Node<T> left, right;
+int setHeight(Node t){
+setHeight(root)
+
+setHeight(□)
+
+setHeight(□)
+
+setHeight(☒)
+
+setHeight(☒):1
+
+setHeight(☒):2
+-1
+
+setHeight(□):3 h1=-1
+
+setHeight(□):3 h1=-1
+
+setHeight(□):4 h1=-1
+
+setHeight(□):4 h1=-1 h2=__
+
+setHeight(□):4 h1=-1 h2=__
+setHeight(☒)
+
+setHeight(□):4 h1=-1 h2=__
+setHeight(☒):1
+
+setHeight(□):4 h1=-1 h2=__
+setHeight(☒):2
+-1
+
+setHeight(□):4 h1=-1 h2=-1
+
+setHeight(□):4 h1=-1 h2=-1
+
+setHeight(□):5 h1=-1 h2=-1
+
+setHeight(□):6 h1=-1 h2=-1
+
+setHeight(□):3 h1=0
+
+setHeight(□):3 h1=0
+...
+
+Example: Pushing Info Over
+class Node<T> {
+T data;
+Node<T> left, right;
+printMathTree(Node t){
+printMathTree(root) //infix notation
+
+OUTPUT:
+
+OUTPUT:
+
+OUTPUT: (
+
+OUTPUT: (
+
+OUTPUT: (
+
+OUTPUT: (
+
+OUTPUT: ((
+
+OUTPUT: ((
+
+OUTPUT: ((
+
+OUTPUT: ((
+
+printMathTree(☒):1
+
+printMathTree(☒):1
+
+printMathTree(☒):1
+
+printMathTree(☒):1
+
+OUTPUT: (((a)
+
+OUTPUT: (((a)
+
+OUTPUT: (((a)
+
+OUTPUT: (((a)+
+
+OUTPUT: (((a)+
+
+OUTPUT: (((a)+ ...

@@ -1,0 +1,90 @@
+CS310
+Data Structures
+(what we will Cover)
+
+Wes Masri
+wmasri@gmu.edu George Mason University
+
+Course Outline
+
+- Data Structures
+- Dynamic Lists
+- Linked Lists
+- Stacks and Queues
+- Trees
+- Graphs
+- ... and more!
+-
+Applications of Prior Programming Concepts
+- Proficiency in Java
+- Generics
+- Recursion
+
+- Algorithm Related Topics
+- Algorithms Specific to Data Structures
+- Algorithm Cost Analysis
+
+(both are linear, ordered collections that can grow or shrink in size as needed, with new items added to the end and items removed)
+
+- Requires expansion
+
+- Requires expansion
+
+Image Sources: http://en.wikipedia.org/wiki/File:Dynamic_array.svg
+
+- Linked Lists - Collection of nodes where each node is connected to the next node through a reference
+
+A linked list is a dynamic data structure where each element (called a node) is made up of two items: the data and a reference (or pointer), which points to the next node.
+
+Why not use an array instead?
+
+- Linked Lists - Collection of nodes where each node is connected to the next node through a reference
+- Stack - Data structure that works like a... stack (e.g of paper,
+books, plates, system stack, web links, undo text)...LIFO
+
+Image Source: http://en.wikipedia.org/wiki/File:Data_stack.svg and
+http://en.wikipedia.org/wiki/File:Data_Queue.svg
+
+- Linked Lists - Collection of nodes where each node is connected to the next node through a reference
+- Stack - Data structure that works like a... stack (e.g of paper, plates)
+- Queue - Data structure that works like a... queue (or a "line"), e.g., print manager, waiting in line at the DMV ...FIFO
+
+Image Source: http://en.wikipedia.org/wiki/File:Data_Queue.svg
+
+- Linked Lists - Collection of nodes where each node is connected to the next node through a reference
+- Stack - Data structure that works like a... stack (e.g of paper)
+- Queue - Data structure that works like a... queue (or a "line" if you aren't British)
+- Tree - Data structure which looks like an upside down tree (or the root system of a tree), e.g., File Manager
+
+Tree: Linux or Windows file system
+
+- Linked Lists - Collection of nodes where each node is connected to the next node through a reference
+- Stack - Data structure that works like a... stack (e.g of paper)
+- Queue - Data structure that works like a... queue (or a "line" if you aren't
+British)
+- Tree - Data structure which looks like an upside down tree (or the root system
+of a tree)
+- Graphs - Data structure which works like a road map (points you can go to, and ways to get there)
+
+A Control Flow Graph
+
+if ( ) {	// 1
+if ( ) { // 3
+}
+else {
+}
+
+}
+else {
+
+}
+
+and More!
+- Priority Queues - like hospital queues (most important first... paper cut
+patient vs. heart attack patient)
+- Sets - like mathematical sets { 1, 10, 5 }
+- Maps (dictionaries)- like mathematical functions X ==> Y: { "fred": 1, "alex": 2 }
+
+- What will we talk about?
+- How does it work?
+- What are the benefits / trade-offs?

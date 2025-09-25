@@ -1,0 +1,330 @@
+Socrates Dimitriadis socrates@gmu.edu
+
+Office hours: Wednesdays 1-3pm (ENGR 4508) George Mason University
+Welcome to CS 310
+
+–3 instructors, 5 GTAs, 1 graduate grader, 11 UTAs –3 sections, fully coordinated, ~450 students –Class demographics?
+Warm-up
+
+30 seconds for thought!
+
+–Everyone in the country has a ten digit phone number – The numbers are non-consecutive (why?)
+
+–How would you store these efficiently ?
+
+– There are over 300,000,000 people in US…
+
+–How would you chatgpt this problem?
+Start Small…
+
+–So... what do "efficiently" and "quickly" mean? – is a human or a computer looking up?
+– look up by name or by phone number? – does “adding” has to be quick too?
+– many other questions...
+
+–Solution Ideas?
+
+–Main difference of CS310 vs CS112/CS211
+Course Outline
+
+–Data Structures
+
+– Dynamic Arrays
+
+–Applications of Prior Programming Concepts
+
+– Linked Lists
+
+– Stacks and Queues
+
+– Generics
+
+– Recursion
+
+– Hashing – Trees
+– Graphs
+
+–Algorithm Related Topics
+
+– Data Structure Specific Algorithms
+
+– Data Structures to Support Algorithms
+
+– Algorithm Analysis
+Course Outline
+
+–Data Structures
+
+– Dynamic Arrays
+
+–Applications of Prior Programming Concepts
+
+– Linked Lists
+
+– Stacks and Queues
+
+– Generics
+
+– Recursion
+
+– Hashing – Trees
+– Graphs
+
+–Algorithm Related Topics
+
+– Data Structure Specific Algorithms
+
+– Data Structures to Support Algorithms
+
+– Algorithm Analysis
+What is a Data Structure?
+
+–“A data structure is a representation of data and the operations allowed on the data”
+
+–Some textbooks refer to these as Abstract Data Types (ADTs)
+
+–Dynamic Array Lists - Data structure like a paper and pencil list
+
+Image Sources: http://en.wikipedia.org/wiki/File:Dynamic_array.svg
+
+–Dynamic Array Lists - Data structure like a paper and pencil list –Linked Lists - Data structure along the lines of a treasure hunt
+
+Start at the beginning and at each “stop” find an item and the clue to the next place to look
+
+Image Source: http://en.wikipedia.org/wiki/File:Singly-linked-list.svg
+
+–Dynamic Array Lists - Data structure like a paper and pencil list –Linked Lists - Data structure along the lines of a treasure hunt –Stack - Data structure that works like a... stack (e.g of paper)
+
+Image Source: http://en.wikipedia.org/wiki/File:Data_stack.svg and http://en.wikipedia.org/wiki/File:Data_Queue.svg
+
+–Dynamic Array Lists - Data structure like a paper and pencil list –Linked Lists - Data structure along the lines of a treasure hunt –Stack - Data structure that works like a... stack (e.g of paper)
+–Queue - Data structure that works like a... queue (or a “line” if you aren't British)
+
+Image Source: http://en.wikipedia.org/wiki/File:Data_Queue.svg
+
+–Dynamic Array Lists - Data structure like a paper and pencil list –Linked Lists - Data structure along the lines of a treasure hunt –Stack - Data structure that works like a... stack (e.g of paper)
+–Queue - Data structure that works like a... queue (or a “line” if you aren't British)
+
+–Tree - Data structure which looks like an upside down tree
+
+–Dynamic Array Lists - Data structure like a paper and pencil list –Linked Lists - Data structure along the lines of a treasure hunt –Stack - Data structure that works like a... stack (e.g of paper)
+–Queue - Data structure that works like a... queue (or a “line” if you aren't British)
+
+–Tree - Data structure which looks like an upside down tree
+
+–Graphs - Data structure which works like a road map (points you can go to, and ways to get there)
+and More!
+
+–Priority Queues – like hospital queues (most important first) –Sets – like mathematical sets { 1, 10, 5 }
+–Maps – like mathematical functions X → Y { “fred”: 1, “alex”: 2 }
+
+–+ Special Topics (maybe Disjoint Sets? Forests? Tries? Huffman Trees? Blockchain?)
+
+–Our focus with all these structures is: – How do they work behind the scenes?
+– What are the benefits / trade-offs?
+
+– How to implement them from scratch!
+Course Outline
+
+–Data Structures
+** I expect that you've seen these in Java before but maybe not used them so much. **
+
+–Applications of Prior Programming Concepts
+
+– Generics
+
+– Stacks and Queues	– Recursion
+
+– Hashing – Trees
+– Graphs
+
+–Algorithm Related Topics
+
+– Data Structure Specific Algorithms
+
+– Data Structures to Support Algorithms
+
+– Algorithm Analysis
+Course Outline
+
+–Data Structures
+
+– Dynamic Arrays
+
+–Applications of Prior Programming Concepts
+
+– Linked Lists
+
+– Stacks and Queues
+
+– Generics
+
+– Recursion
+
+– Hashing – Trees
+– Graphs
+
+–Algorithm Related Topics
+
+– Data Structure Specific Algorithms
+
+– Data Structures to Support Algorithms (e.g. Hashing)
+
+– Algorithm Analysis
+Algorithms on Data Structures
+
+–Algorithm
+= how you do things
+
+–Each operation: – add
+– remove – find
+– etc.
+
+–Has one or more algorithms!
+Data Structures for Algorithms
+
+–Many very useful algorithms in computer science require a customized data structure to work
+
+Examples:
+
+– Union-ing sets
+
+– “Mapping” values to labels
+
+– Finding the shortest path between two things
+Algorithm Analysis
+
+–Algorithm
+
+= how you do things –Algorithm Analysis
+= analyze how well you do things –What defines well?
+– Time to complete?
+
+– Computer memory required?
+
+– How hard to implement (in software)? – Other dimensions?
+
+Questions?
+Prerequisites / Requirements
+
+– Programming Experience
+
+– 2 semesters of programming
+
+– 1 semester of Java programming
+
+– Program design, coding, and debugging
+
+– Textbook
+
+– Mark Allen Weiss, Data Structures & Problem Solving Using Java, 4th ed., Addison-Wesley, 2010
+
+– OpenDSA - CS3 Data Structures & Algorithms
+
+Free online: https://opendsa-server.cs.vt.edu/OpenDSA/Books/CS3/html/
+
+– Coding Warm-up
+
+– 1% of your total grade. Deadline: Friday Sep. 5 11:59pm
+
+– You must pass all the tests to complete this assignment
+Software Tools / Resources
+
+–Computer to compile Java on
+
+– or use an open lab around campus
+
+–Java 8 (higher is ok but no use of advanced features)
+
+–Integrated Development Environment (IDE)
+
+– Your choice (VSCode, Eclipse, NetBeans, jGrasp, etc.) – WE DO NOT debug IDE's/setup
+– Use of AI tools and plugins is prohibited
+Other Resources
+
+– Piazza
+
+– Go to piazza.com/gmu/fall2025/cs310
+
+– The official channel for all the course material, announcements, etc. You’re required to observe it.
+
+– Discussion forum for homework, quizzes, exams, etc.
+
+– If you post some code make sure you make it privately (address the post to: Instructors)
+
+– Canvas
+
+– Grades only
+
+– Gradescope
+
+– Project Submission, Grading, Regrade Requests
+
+Syllabus & Schedule, Let’s Look!
+Grading Policy and Contesting
+
+–Grade explanations – Email your grader
+–Grades may be contested
+
+– Submit request via Gradescope, not email – you must justify your change request
+– you have 1 week from when grades are posted
+Cheating
+
+–What is cheating?
+
+–Why shouldn’t you cheat?
+
+–Why shouldn’t other people cheat? –When is group work ok?
+
+–Group work:
+
+– is ok for: reading and studying
+
+– is not ok for: programming assignments or exams
+Honor Code
+
+–University
+
+– https://academicstandards.gmu.edu/academic-standards-code/
+
+–CS Deparment
+
+– http://cs.gmu.edu/resources/honor-code/
+
+–You are required to know both of these
+
+– The CS Honor Code provides policies more specific to CS curriculum
+You May:
+
+–seek assistance in learning to use the computing facilities
+
+–seek assistance in learning to use special features of a programming language's implementation
+
+–seek assistance in determining the syntactic correctness of a particular programming language statement or construct
+
+–seek an explanation of a particular syntactic error
+
+–seek explanations of compilation or run-time error messages
+You may not seek assistance:
+
+(except from your instructor)
+
+–designing the data structures used in your solution to a problem –designing the algorithm to solve a problem
+–modifying the design of an algorithm determined to be faulty –implementing your algorithm in a programming language –correcting a faulty implementation of your algorithm –determining the semantic correctness of your algorithm
+You may not:
+
+(Unless granted permission by your instructor.)
+
+– give a copy of your work in any form to another student – receive a copy of someone else's work in any form
+– attempt to gain access to any files other than your own
+
+– inspect or retain in your possession another student's work
+
+– in any way collaborate with someone else in the design or implementation or logical revision of an algorithm
+
+– present as your own, any algorithmic procedure which is not of your own or of the instructor's design, or which is not part of the course's required reading (in which case a citation is needed)
+
+– incorporate code written by others (humans, aliens, AI, etc.)
+
+Java Review!
+
+(not part of lecture… part of 211)
