@@ -1,7 +1,6 @@
 # Training Loss Summary
 
-- Plot: `checkpoints/metrics.png`
-- Source: `checkpoints/metrics.csv`
+- Plot: `checkpoints/metrics.png` (moved to 'loss plot' for easier visibility)
 
 ## Highlights
 - First logged step: 120
@@ -36,6 +35,4 @@
   - Keep dropout at 0.2, consider label smoothing (e.g., `--label-smoothing 0.05`), and monitor validation metrics.
 
 ## Files
-- Metrics CSV: `checkpoints/metrics.csv`
 - Plot: `checkpoints/metrics.png`
-- Example checkpoint: `checkpoints/text-3p6M/ckpt_6000.pt`
